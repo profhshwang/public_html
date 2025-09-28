@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 비디오 생성을 위한 프롬프트 가이드북</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        .header .version {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        .content {
+            padding: 40px;
+        }
+        .toc {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        .toc h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+        .toc ol {
+            columns: 2;
+            column-gap: 30px;
+            margin: 0;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+        .toc a {
+            color: #495057;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .toc a:hover {
+            color: #667eea;
+        }
+        .section {
+            margin-bottom: 50px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            margin: -1px;
+            border-radius: 10px 10px 0 0;
+        }
+        .section-content {
+            padding: 30px;
+        }
+        .section h2 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        .subsection {
+            margin-bottom: 30px;
+        }
+        .subsection h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .subsection h4 {
+            color: #495057;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .keyword-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .keyword-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        .keyword-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        .keyword-term {
+            font-weight: 600;
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+        }
+        .keyword-desc {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        .structure-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .structure-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        .tips {
+            background: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .tips-title {
+            font-weight: 600;
+            color: #004085;
+            margin-bottom: 10px;
+        }
+        .tips ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .negative-prompts {
+            background: #ffeaa7;
+            border: 1px solid #fdcb6e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .negative-title {
+            font-weight: 600;
+            color: #d68910;
+            margin-bottom: 10px;
+        }
+        .example-box {
+            background: #f1f8e9;
+            border: 1px solid #c5e1a5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .example-title {
+            font-weight: 600;
+            color: #388e3c;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+        .back-to-top:hover {
+            background: #5a67d8;
+            transform: translateY(-3px);
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .content {
+                padding: 20px;
+            }
+            .toc ol {
+                columns: 1;
+            }
+            .keyword-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AI 비디오 생성을 위한 프롬프트 가이드북</h1>
+            <div class="version">버전 2.0 - organized by Prof. H. Hwang</div>
+        </header>
+
+        <div class="content">
+            <div class="toc">
+                <h2>목차</h2>
+                <ol>
+                    <li><a href="#section1">프롬프트 기본구조</a></li>
+                    <li><a href="#section2">비디오 형식 및 목적</a></li>
+                    <li><a href="#section3">카메라 무브먼트 및 앵글</a></li>
+                    <li><a href="#section4">주제 및 액션</a></li>
+                    <li><a href="#section5">환경 및 배경</a></li>
+                    <li><a href="#section6">시각적 스타일</a></li>
+                    <li><a href="#section7">조명 및 색상</a></li>
+                    <li><a href="#section8">시간적 요소</a></li>
+                    <li><a href="#section9">사운드 및 음향</a></li>
+                    <li><a href="#section10">특수 효과</a></li>
+                    <li><a href="#section11">캐릭터 및 인물</a></li>
+                    <li><a href="#section12">브랜딩 및 상업적 요소</a></li>
+                    <li><a href="#section13">플랫폼별 최적화</a></li>
+                    <li><a href="#section14">품질 파라미터</a></li>
+                    <li><a href="#section15">고급 프롬프트 기법</a></li>
+                </ol>
+            </div>
+
+            <section id="section1" class="section">
+                <div class="section-header">
+                    <h2>1. 프롬프트 기본구조</h2>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>Prompt Structure / 프롬프트 구조</h3>
+                        <div class="structure-box">
+                            <div class="structure-title">기본 구조</div>
+                            <div class="formula">
+                                비디오 형식 + 카메라 무브먼트 + 주제/액션 + 환경/배경 + 시각적 스타일 + 조명/색상 + 시간적 요소 + 특수효과 + 캐릭터 + 브랜딩 + 플랫폼 + 품질 파라미터
+                            </div>
+                        </div>
+                        
+                        <div class="structure-box">
+                            <div class="structure-title">고급 구조</div>
+                            <div class="formula">
+                                [목적/형식] + [기본 컨셉] + [시각적 스타일] + [카메라워크] + [주요 액션] + [환경/배경] + [캐릭터/피사체] + [조명/색상] + [시간적 처리] + [특수 효과] + [무드/감정] + [기술적 사양] + [플랫폼 최적화]
+                            </div>
+                        </div>
+
+                        <div class="tips">
+                            <div class="tips-title">확장된 사용 가이드</div>
+                            <ul>
+                                <li>각 카테고리에서 2-3개의 핵심 키워드 선택 권장</li>
+                                <li>상충되는 요소는 우선순위에 따라 배치</li>
+                                <li>네거티브 프롬프트 활용으로 원하지 않는 요소 제외</li>
+                                <li>가중치 조절로 특정 요소 강조 가능 (예: strong lighting:1.5)</li>
+                                <li>조건부 프롬프트로 복잡한 시나리오 구성</li>
+                            </ul>
+                        </div>
+
+                        <div class="negative-prompts">
+                            <div class="negative-title">Negative Prompts / 네거티브 프롬프트</div>
+                            <p>원하지 않는 요소들을 명시적으로 제외:</p>
+                            <div class="keyword-grid">
+                                <div class="keyword-item">
+                                    <div class="keyword-term">avoid shaky camera</div>
+                                    <div class="keyword-desc">흔들린 카메라 제외</div>
+                                </div>
+                                <div class="keyword-item">
+                                    <div class="keyword-term">no blur</div>
+                                    <div class="keyword-desc">흐림 없음</div>
+                                </div>
+                                <div class="keyword-item">
+                                    <div class="keyword-term">avoid overexposure</div>
+                                    <div class="keyword-desc">과다 노출 방지</div>
+                                </div>
+                                <div class="keyword-item">
+                                    <div class="keyword-term">no distortion</div>
+                                    <div class="keyword-desc">왜곡 없음</div>
+                                </div>
+                                <div class="keyword-item">
+                                    <div class="keyword-term">avoid harsh shadows</div>
+                                    <div class="keyword-desc">강한 그림자 방지</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section2" class="section">
+                <div class="section-header">
+                    <h2>2. 비디오 형식 및 목적</h2>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>기본 비디오 타입 / Basic Video Types</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">cinematic video</div>
+                                <div class="keyword-desc">영화적 비디오 - 영화 같은 품질과 구성</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">commercial advertisement</div>
+                                <div class="keyword-desc">광고 영상 - 상품이나 서비스 홍보용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">documentary footage</div>
+                                <div class="keyword-desc">다큐멘터리 영상 - 현실적이고 자연스러운 접근</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">music video</div>
+                                <div class="keyword-desc">뮤직비디오 - 음악과 어울리는 시각적 표현</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">social media content</div>
+                                <div class="keyword-desc">소셜미디어 콘텐츠 - SNS 플랫폼용 짧은 형식</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">product demonstration</div>
+                                <div class="keyword-desc">제품 시연 - 제품의 특징과 기능 강조</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">educational tutorial</div>
+                                <div class="keyword-desc">교육 튜토리얼 - 정보 전달 목적</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">corporate presentation</div>
+                                <div class="keyword-desc">기업 프레젠테이션 - 비즈니스 목적의 전문적 영상</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">event coverage</div>
+                                <div class="keyword-desc">이벤트 커버리지 - 행사나 이벤트 기록</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">lifestyle vlog</div>
+                                <div class="keyword-desc">라이프스타일 브이로그 - 일상적이고 개인적인 영상</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>특수 형식 / Special Formats</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">time-lapse photography</div>
+                                <div class="keyword-desc">타임랩스 촬영 - 긴 시간을 빠르게 압축</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">slow motion capture</div>
+                                <div class="keyword-desc">슬로우 모션 캡처 - 느린 동작으로 디테일 강조</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">stop motion animation</div>
+                                <div class="keyword-desc">스톱 모션 애니메이션 - 정지 이미지를 연속으로 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">360-degree video</div>
+                                <div class="keyword-desc">360도 비디오 - 전방향 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">vertical format</div>
+                                <div class="keyword-desc">세로 형식 - 모바일 최적화 세로 형식</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">square format</div>
+                                <div class="keyword-desc">정사각형 형식 - SNS 피드용 정사각 형식</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">loop animation</div>
+                                <div class="keyword-desc">루프 애니메이션 - 끊임없이 반복되는 영상</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">cinemagraph</div>
+                                <div class="keyword-desc">시네마그래프 - 부분적으로만 움직이는 정적 이미지</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">hyperlapse</div>
+                                <div class="keyword-desc">하이퍼랩스 - 이동하면서 찍는 타임랩스</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">bullet time</div>
+                                <div class="keyword-desc">불릿 타임 - 매트릭스 스타일의 360도 슬로우 모션</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">morphing sequence</div>
+                                <div class="keyword-desc">모핑 시퀀스 - 형태 변화의 연속</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">split screen</div>
+                                <div class="keyword-desc">분할 화면 - 여러 장면의 동시 표시</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>장르별 스타일 / Genre Styles</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">horror atmosphere</div>
+                                <div class="keyword-desc">공포 분위기 - 긴장감과 두려움 조성</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">comedy timing</div>
+                                <div class="keyword-desc">코미디 타이밍 - 유머러스하고 밝은 분위기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">thriller suspense</div>
+                                <div class="keyword-desc">스릴러 서스펜스 - 긴장감과 서스펜스</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">romantic mood</div>
+                                <div class="keyword-desc">로맨틱 무드 - 감성적이고 따뜻한 분위기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">action sequence</div>
+                                <div class="keyword-desc">액션 시퀀스 - 역동적이고 빠른 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">sci-fi futuristic</div>
+                                <div class="keyword-desc">SF 미래적 - 미래적이고 기술적인 요소</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">fantasy magical</div>
+                                <div class="keyword-desc">판타지 마법적 - 마법과 초자연적 요소</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">western style</div>
+                                <div class="keyword-desc">웨스턴 스타일 - 서부극의 거친 분위기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">noir detective</div>
+                                <div class="keyword-desc">느와르 탐정 - 어둡고 미스터리한 분위기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">war combat</div>
+                                <div class="keyword-desc">전쟁 전투 - 격렬하고 현실적인 전투 장면</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>문화적 스타일 / Cultural Styles</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">k-pop aesthetic</div>
+                                <div class="keyword-desc">K-POP 미학 - 한국 대중음악의 시각적 스타일</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">anime style</div>
+                                <div class="keyword-desc">애니메이션 스타일 - 일본 애니메이션의 표현 방식</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">bollywood dance</div>
+                                <div class="keyword-desc">볼리우드 댄스 - 인도 영화의 화려한 무용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">chinese martial arts</div>
+                                <div class="keyword-desc">중국 무술 - 동양 무예의 우아한 동작</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">african tribal</div>
+                                <div class="keyword-desc">아프리카 부족 - 아프리카 전통 문화의 표현</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">latin passion</div>
+                                <div class="keyword-desc">라틴 열정 - 라틴 아메리카의 정열적 문화</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">nordic minimalism</div>
+                                <div class="keyword-desc">북유럽 미니멀리즘 - 스칸디나비아의 간결한 미학</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section3" class="section">
+                <div class="section-header">
+                    <h2>3. 카메라 무브먼트 및 앵글</h2>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>기본 카메라 움직임 / Basic Camera Movements</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">static shot</div>
+                                <div class="keyword-desc">고정 샷 - 카메라가 움직이지 않는 정적 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">pan left/right</div>
+                                <div class="keyword-desc">팬 좌/우 - 수평으로 좌우 이동</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">tilt up/down</div>
+                                <div class="keyword-desc">틸트 상/하 - 수직으로 상하 이동</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">zoom in/out</div>
+                                <div class="keyword-desc">줌 인/아웃 - 피사체에 가까워지거나 멀어짐</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">dolly in/out</div>
+                                <div class="keyword-desc">돌리 인/아웃 - 카메라 전체가 전후 이동</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">tracking shot</div>
+                                <div class="keyword-desc">트래킹 샷 - 피사체를 따라 움직이는 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">crane shot</div>
+                                <div class="keyword-desc">크레인 샷 - 높이 변화가 있는 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">handheld camera</div>
+                                <div class="keyword-desc">핸드헬드 카메라 - 손으로 들고 촬영하는 자연스러운 흔들림</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>고급 카메라 무브먼트 / Advanced Camera Movements</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">orbital shot</div>
+                                <div class="keyword-desc">궤도 샷 - 피사체 주위를 원형으로 돌며 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">push in</div>
+                                <div class="keyword-desc">푸시 인 - 피사체를 향해 직선적으로 접근</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">pull back reveal</div>
+                                <div class="keyword-desc">풀 백 리빌 - 피사체에서 멀어지며 전체적인 시야 확보</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">whip pan</div>
+                                <div class="keyword-desc">휩 팬 - 빠른 좌우 움직임으로 블러 효과 생성</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">rack focus</div>
+                                <div class="keyword-desc">랙 포커스 - 초점이 한 피사체에서 다른 피사체로 이동</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">gimbal stabilized</div>
+                                <div class="keyword-desc">짐벌 안정화 - 안정적이고 부드러운 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">drone aerial</div>
+                                <div class="keyword-desc">드론 항공 - 공중에서의 역동적인 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">steadicam flow</div>
+                                <div class="keyword-desc">스테디캠 플로우 - 매끄럽고 흐르는 듯한 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">jib arm sweep</div>
+                                <div class="keyword-desc">지브암 스윕 - 아크 형태의 우아한 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">camera spinning</div>
+                                <div class="keyword-desc">카메라 회전 - 축을 중심으로 한 회전 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">vertigo effect</div>
+                                <div class="keyword-desc">버티고 효과 - 줌과 달리의 반대 동작으로 생기는 왜곡</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>특수 카메라 기법 / Special Camera Techniques</h3>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">macro lens movement</div>
+                                <div class="keyword-desc">매크로 렌즈 무브먼트 - 극도로 가까운 거리에서의 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">underwater camera</div>
+                                <div class="keyword-desc">수중 카메라 - 물속에서의 특수한 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">360 camera rotation</div>
+                                <div class="keyword-desc">360도 카메라 회전 - 전방향 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">motion control camera</div>
+                                <div class="keyword-desc">모션 컨트롤 카메라 - 프로그래밍된 정밀한 움직임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">cable cam</div>
+                                <div class="keyword-desc">케이블 캠 - 와이어를 따라 이동하는 역동적 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">body mounted camera</div>
+                                <div class="keyword-desc">몸체 장착 카메라 - 피사체에 부착된 주관적 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">remote controlled</div>
+                                <div class="keyword-desc">원격 조종 - 무선으로 조작되는 카메라 움직임</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>카메라 앵글 / Camera Angles</h3>
+                        <h4>수직 앵글 / Vertical Angles</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">eye level</div>
+                                <div class="keyword-desc">아이 레벨 - 눈높이에서의 자연스러운 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">high angle</div>
+                                <div class="keyword-desc">하이 앵글 - 위에서 아래로 내려다보는 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">low angle</div>
+                                <div class="keyword-desc">로우 앵글 - 아래에서 위로 올려다보는 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">bird's eye view</div>
+                                <div class="keyword-desc">버드 아이 뷰 - 극단적인 높은 곳에서의 조감도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">worm's eye view</div>
+                                <div class="keyword-desc">웜 아이 뷰 - 극단적인 낮은 곳에서의 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">overhead shot</div>
+                                <div class="keyword-desc">오버헤드 샷 - 직접 위에서 내려다보는 시점</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">ground level</div>
+                                <div class="keyword-desc">지면 레벨 - 바닥과 같은 높이에서의 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">ceiling angle</div>
+                                <div class="keyword-desc">천장 앵글 - 천장에서 아래로 보는 시점</div>
+                            </div>
+                        </div>
+                        <h4>수평 앵글 / Horizontal Angles</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">front angle</div>
+                                <div class="keyword-desc">정면 앵글 - 피사체의 정면에서 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">side profile</div>
+                                <div class="keyword-desc">측면 프로필 - 피사체의 옆면에서 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">3/4 angle</div>
+                                <div class="keyword-desc">3/4 앵글 - 정면과 측면 사이의 각도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">back angle</div>
+                                <div class="keyword-desc">후면 앵글 - 피사체의 뒤에서 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">dutch angle</div>
+                                <div class="keyword-desc">더치 앵글 - 기울어진 수평선으로 역동성 표현</div>
+                            </div>
+                        </div>
+                        <h4>샷 크기 / Shot Sizes</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">extreme wide shot</div>
+                                <div class="keyword-desc">익스트림 와이드 샷 - 광활한 전체 풍경</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">wide shot</div>
+                                <div class="keyword-desc">와이드 샷 - 피사체와 주변 환경 포함</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">medium wide shot</div>
+                                <div class="keyword-desc">미디엄 와이드 샷 - 전신과 약간의 배경</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">medium shot</div>
+                                <div class="keyword-desc">미디엄 샷 - 허리 위 또는 무릎 위</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">medium close-up</div>
+                                <div class="keyword-desc">미디엄 클로즈업 - 가슴 위 부분</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">close-up</div>
+                                <div class="keyword-desc">클로즈업 - 얼굴이나 작은 물체에 집중</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">extreme close-up</div>
+                                <div class="keyword-desc">익스트림 클로즈업 - 눈, 입 등 매우 작은 부분</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">insert shot</div>
+                                <div class="keyword-desc">인서트 샷 - 특정 디테일을 강조하는 매우 가까운 샷</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="section4" class="section"> 
+                </section>
+            
+            <section id="section13" class="section">
+                <div class="section-header">
+                    <h2>13. 플랫폼별 최적화</h2>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>소셜 미디어 플랫폼 / Social Media Platforms</h3>
+                        <h4>Instagram 최적화</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">square format 1:1</div>
+                                <div class="keyword-desc">정사각형 형식 1:1 - 피드에 최적화된 정사각형 화면비</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">vertical story 9:16</div>
+                                <div class="keyword-desc">세로 스토리 9:16 - 스토리와 릴스에 적합한 세로 형식</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">aesthetic filter</div>
+                                <div class="keyword-desc">미적 필터 - 인스타그램 특유의 아름다운 시각적 효과</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">hashtag friendly</div>
+                                <div class="keyword-desc">해시태그 친화적 - 발견되기 쉬운 트렌드 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">influencer style</div>
+                                <div class="keyword-desc">인플루언서 스타일 - 개인 브랜드 중심의 매력적 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">lifestyle showcase</div>
+                                <div class="keyword-desc">라이프스타일 쇼케이스 - 일상의 아름다운 순간들 포착</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">brand collaboration</div>
+                                <div class="keyword-desc">브랜드 협업 - 상업적 파트너십의 자연스러운 통합</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h4>TikTok 최적화 / TikTok Optimization</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">vertical mobile 9:16</div>
+                                <div class="keyword-desc">세로 모바일 9:16 - 모바일 전용 세로 화면 최적화</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">quick attention grab</div>
+                                <div class="keyword-desc">빠른 주의 집중 - 첫 3초 내 시청자 관심 사로잡기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">trend participation</div>
+                                <div class="keyword-desc">트렌드 참여 - 현재 유행하는 음악과 챌린지 활용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">generation z appeal</div>
+                                <div class="keyword-desc">Z세대 어필 - 젊은 층의 취향과 문화 반영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">viral potential</div>
+                                <div class="keyword-desc">바이럴 잠재력 - 빠르게 확산될 수 있는 중독성 있는 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">authentic casual</div>
+                                <div class="keyword-desc">진정성 있는 캐주얼 - 가식 없이 자연스러운 모습</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">music sync perfect</div>
+                                <div class="keyword-desc">음악 싱크 완벽 - 비트와 완벽하게 맞춰진 영상 편집</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h4>YouTube 최적화 / YouTube Optimization</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">landscape format 16:9</div>
+                                <div class="keyword-desc">가로 형식 16:9 - 데스크탑과 TV 시청에 적합한 가로 화면</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">thumbnail worthy</div>
+                                <div class="keyword-desc">썸네일 가치 - 클릭을 유도하는 매력적인 장면 구성</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">watch time optimization</div>
+                                <div class="keyword-desc">시청 시간 최적화 - 긴 시간 시청을 유도하는 구성</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">educational value</div>
+                                <div class="keyword-desc">교육적 가치 - 정보와 지식을 전달하는 유용한 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">subscription encourage</div>
+                                <div class="keyword-desc">구독 유도 - 채널 구독을 자연스럽게 유도하는 요소</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">monetization friendly</div>
+                                <div class="keyword-desc">수익화 친화적 - 광고와 스폰서십에 적합한 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">series potential</div>
+                                <div class="keyword-desc">시리즈 잠재력 - 연속성을 가진 에피소드 형태 구성</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h4>LinkedIn 최적화 / LinkedIn Optimization</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">professional polish</div>
+                                <div class="keyword-desc">전문적 완성도 - 비즈니스 환경에 적합한 고품질 제작</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">career relevance</div>
+                                <div class="keyword-desc">커리어 관련성 - 직업적 성장과 발전에 도움이 되는 내용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">industry insight</div>
+                                <div class="keyword-desc">업계 통찰 - 전문 분야의 깊이 있는 지식과 분석</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">networking value</div>
+                                <div class="keyword-desc">네트워킹 가치 - 전문가들 간의 연결과 소통 촉진</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">thought leadership</div>
+                                <div class="keyword-desc">사상적 리더십 - 업계를 선도하는 혁신적 아이디어 제시</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">corporate culture</div>
+                                <div class="keyword-desc">기업 문화 - 조직의 가치와 문화를 보여주는 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">executive presence</div>
+                                <div class="keyword-desc">임원급 존재감 - 리더십과 권위를 나타내는 품격</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>스트리밍 플랫폼 / Streaming Platforms</h3>
+                        <h4>Netflix 최적화 / Netflix Optimization</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">cinematic quality</div>
+                                <div class="keyword-desc">영화적 품질 - 극장 수준의 고품질 시각적 완성도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">binge worthy</div>
+                                <div class="keyword-desc">몰아보기 가치 - 연속 시청을 유도하는 중독성 있는 스토리</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">global appeal</div>
+                                <div class="keyword-desc">글로벌 어필 - 전 세계 시청자가 공감할 수 있는 보편적 내용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">algorithm friendly</div>
+                                <div class="keyword-desc">알고리즘 친화적 - 추천 시스템에 최적화된 메타데이터</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">diverse representation</div>
+                                <div class="keyword-desc">다양한 대표성 - 포용적이고 다문화적 캐스팅과 스토리</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">genre mixing</div>
+                                <div class="keyword-desc">장르 혼합 - 여러 장르의 요소를 결합한 독창적 접근</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">emotional engagement</div>
+                                <div class="keyword-desc">감정적 몰입 - 시청자의 깊은 감정적 연결 유도</div>
+                            </div>
+                        </div>
+                        <h4>YouTube Premium 최적화 / YouTube Premium Optimization</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">ad-free experience</div>
+                                <div class="keyword-desc">광고 없는 경험 - 중단 없는 연속적 시청 경험 설계</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">high production value</div>
+                                <div class="keyword-desc">높은 제작 가치 - 프리미엄 구독자에게 적합한 고품질</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">exclusive content</div>
+                                <div class="keyword-desc">독점 콘텐츠 - 일반 사용자가 볼 수 없는 특별한 내용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">creator collaboration</div>
+                                <div class="keyword-desc">크리에이터 협업 - 인기 유튜버와의 전략적 파트너십</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">educational premium</div>
+                                <div class="keyword-desc">교육 프리미엄 - 심층적이고 전문적인 학습 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">documentary style</div>
+                                <div class="keyword-desc">다큐멘터리 스타일 - 깊이 있는 탐구와 조사 기반 내용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">subscription retention</div>
+                                <div class="keyword-desc">구독 유지 - 지속적인 구독을 유도하는 가치 제공</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>브랜드 채널 / Brand Channels</h3>
+                        <h4>기업 웹사이트 / Corporate Website</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">brand consistency</div>
+                                <div class="keyword-desc">브랜드 일관성 - 모든 터치포인트에서 동일한 브랜드 경험</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">conversion focused</div>
+                                <div class="keyword-desc">전환 집중 - 방문자를 고객으로 전환시키는 명확한 목표</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">trust building</div>
+                                <div class="keyword-desc">신뢰 구축 - 기업의 신뢰성과 전문성을 보여주는 요소들</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">mobile responsive</div>
+                                <div class="keyword-desc">모바일 반응형 - 모든 기기에서 최적화된 시청 경험</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">SEO optimized</div>
+                                <div class="keyword-desc">SEO 최적화 - 검색 엔진에서 발견되기 쉬운 콘텐츠 구조</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">user journey</div>
+                                <div class="keyword-desc">사용자 여정 - 고객의 의사결정 과정을 고려한 콘텐츠 배치</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">call to action</div>
+                                <div class="keyword-desc">행동 유도 - 명확하고 효과적인 다음 행동 안내</div>
+                            </div>
+                        </div>
+                        <h4>이메일 마케팅 / Email Marketing</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">mobile preview</div>
+                                <div class="keyword-desc">모바일 미리보기 - 이메일 앱에서의 썸네일 최적화</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">engagement hook</div>
+                                <div class="keyword-desc">참여 유도 - 이메일을 열고 읽게 만드는 매력적 시작</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">personalization</div>
+                                <div class="keyword-desc">개인화 - 수신자 개인의 관심사와 행동에 맞춘 맞춤형 내용</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">value proposition</div>
+                                <div class="keyword-desc">가치 제안 - 수신자에게 명확한 이익과 가치 제공</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">unsubscribe prevention</div>
+                                <div class="keyword-desc">구독 취소 방지 - 지속적인 관심을 유지하는 고품질 콘텐츠</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">timing optimization</div>
+                                <div class="keyword-desc">타이밍 최적화 - 수신자가 가장 활발한 시간대 고려</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">social sharing</div>
+                                <div class="keyword-desc">소셜 공유 - 이메일 내용을 소셜 미디어로 확산 유도</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section14" class="section">
+                <div class="section-header">
+                    <h2>14. 품질 파라미터 / Quality Parameters</h2>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>기술적 품질 / Technical Quality</h3>
+                        <h4>해상도 및 화질 / Resolution & Image Quality</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">8K ultra HD</div>
+                                <div class="keyword-desc">8K 울트라 HD - 7680×4320 픽셀의 최고급 해상도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">4K cinema</div>
+                                <div class="keyword-desc">4K 시네마 - 4096×2160 픽셀의 영화급 해상도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">4K UHD</div>
+                                <div class="keyword-desc">4K UHD - 3840×2160 픽셀의 표준 4K 해상도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">2K professional</div>
+                                <div class="keyword-desc">2K 전문가용 - 2048×1080 픽셀의 고품질 해상도</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">1080p full HD</div>
+                                <div class="keyword-desc">1080p 풀 HD - 1920×1080 픽셀의 고화질 표준</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">720p HD ready</div>
+                                <div class="keyword-desc">720p HD 준비 - 1280×720 픽셀의 기본 고화질</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">crystal clear</div>
+                                <div class="keyword-desc">수정처럼 맑은 - 완벽하게 선명한 화질</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">pixel perfect</div>
+                                <div class="keyword-desc">픽셀 완벽 - 모든 픽셀이 정확하게 표현된 화질</div>
+                            </div>
+                        </div>
+                        <h4>프레임 레이트 / Frame Rate</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">120fps ultra smooth</div>
+                                <div class="keyword-desc">120fps 울트라 부드러움 - 초고속 촬영용 프레임 레이트</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">60fps smooth</div>
+                                <div class="keyword-desc">60fps 부드러움 - 매우 부드러운 움직임의 표준</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">30fps standard</div>
+                                <div class="keyword-desc">30fps 표준 - 자연스러운 움직임의 일반적 프레임 레이트</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">24fps cinematic</div>
+                                <div class="keyword-desc">24fps 영화적 - 영화 같은 느낌의 표준 프레임 레이트</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">variable frame rate</div>
+                                <div class="keyword-desc">가변 프레임 레이트 - 장면에 따라 조절되는 유연한 프레임</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">high frame rate</div>
+                                <div class="keyword-desc">고속 프레임 레이트 - 슬로우 모션용 고속 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">consistent timing</div>
+                                <div class="keyword-desc">일관된 타이밍 - 균일하고 안정적인 프레임 간격</div>
+                            </div>
+                        </div>
+                        <h4>색상 정확도 / Color Accuracy</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">professional color grading</div>
+                                <div class="keyword-desc">전문가급 컬러 그레이딩 - 영화 수준의 색상 보정</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">HDR color space</div>
+                                <div class="keyword-desc">HDR 색상 공간 - 확장된 색상 범위의 고품질 표현</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">color calibrated</div>
+                                <div class="keyword-desc">색상 교정 - 정확하고 일관된 색상 재현</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">wide gamut</div>
+                                <div class="keyword-desc">와이드 가뮤트 - 넓은 색상 표현 범위</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">natural skin tone</div>
+                                <div class="keyword-desc">자연스러운 피부톤 - 실제와 같은 인물 색상 표현</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">vibrant saturation</div>
+                                <div class="keyword-desc">생생한 채도 - 풍부하고 활기찬 색상 표현</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">accurate white balance</div>
+                                <div class="keyword-desc">정확한 화이트 밸런스 - 올바른 색온도 설정</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>제작 품질 / Production Quality</h3>
+                        <h4>촬영 기법 / Filming Techniques</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">professional cinematography</div>
+                                <div class="keyword-desc">전문가급 촬영 - 숙련된 카메라맨의 고급 기법</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">steady camera work</div>
+                                <div class="keyword-desc">안정적 카메라 워크 - 흔들림 없는 매끄러운 촬영</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">perfect focus</div>
+                                <div class="keyword-desc">완벽한 포커스 - 정확하고 선명한 초점 맞춤</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">dynamic composition</div>
+                                <div class="keyword-desc">역동적 구도 - 시각적으로 흥미로운 화면 구성</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">lighting mastery</div>
+                                <div class="keyword-desc">조명 숙련 - 전문적이고 예술적인 조명 설계</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">sound synchronization</div>
+                                <div class="keyword-desc">사운드 동기화 - 영상과 완벽하게 맞춰진 음향</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">seamless editing</div>
+                                <div class="keyword-desc">매끄러운 편집 - 자연스럽고 리듬감 있는 편집 기법</div>
+                            </div>
+                        </div>
+                        <h4>후반 작업 / Post-Production</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">professional editing</div>
+                                <div class="keyword-desc">전문가급 편집 - 숙련된 편집자의 고급 기법</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">color correction</div>
+                                <div class="keyword-desc">색상 보정 - 정확하고 일관된 색상 조정</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">audio mastering</div>
+                                <div class="keyword-desc">오디오 마스터링 - 최고 품질의 음향 후반 작업</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">visual effects integration</div>
+                                <div class="keyword-desc">시각효과 통합 - 자연스럽게 융합된 VFX</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">motion graphics</div>
+                                <div class="keyword-desc">모션 그래픽 - 전문적인 애니메이션과 그래픽 요소</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">title design</div>
+                                <div class="keyword-desc">타이틀 디자인 - 창의적이고 브랜드에 맞는 제목 디자인</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">final mix</div>
+                                <div class="keyword-desc">파이널 믹스 - 모든 음향 요소가 조화롭게 배합된 최종 음향</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>퍼포먼스 / Performance</h3>
+                        <h4>최적화 / Optimization</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">fast loading</div>
+                                <div class="keyword-desc">빠른 로딩 - 즉시 재생되는 신속한 스트리밍</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">smooth playback</div>
+                                <div class="keyword-desc">부드러운 재생 - 끊김 없는 연속적 재생</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">compression efficient</div>
+                                <div class="keyword-desc">압축 효율적 - 품질 손실 없는 최적화된 파일 크기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">bandwidth adaptive</div>
+                                <div class="keyword-desc">대역폭 적응형 - 네트워크 상황에 맞춘 자동 품질 조절</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">device compatible</div>
+                                <div class="keyword-desc">기기 호환성 - 모든 디바이스에서 완벽한 재생</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">cross-platform</div>
+                                <div class="keyword-desc">크로스 플랫폼 - 다양한 운영체제에서 동일한 품질</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">scalable quality</div>
+                                <div class="keyword-desc">확장 가능한 품질 - 다양한 해상도로 제공 가능</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section15" class="section">
+                <div class="section-header">
+                    <h2>15. 고급 프롬프트 기법 / Advanced Prompt Techniques</h2>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>가중치 및 강조 / Weighting & Emphasis</h3>
+                        <h4>가중치 문법 / Weight Syntax</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">(keyword:1.5)</div>
+                                <div class="keyword-desc">150% 강도로 키워드 강조</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">(keyword:0.8)</div>
+                                <div class="keyword-desc">80% 강도로 키워드 약화</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">((keyword))</div>
+                                <div class="keyword-desc">이중 괄호로 강한 강조</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">[keyword]</div>
+                                <div class="keyword-desc">대괄호로 약한 강조</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">keyword!</div>
+                                <div class="keyword-desc">느낌표로 중요도 표시</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">keyword++</div>
+                                <div class="keyword-desc">플러스 기호로 강조 증가</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">keyword--</div>
+                                <div class="keyword-desc">마이너스 기호로 강조 감소</div>
+                            </div>
+                        </div>
+                        <h4>우선순위 설정 / Priority Setting</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                high priority: (cinematic lighting:1.4), (professional quality:1.3)<br>
+                                medium priority: smooth camera movement, natural colors<br>
+                                low priority: [background details], [ambient sound:0.7]
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>조건부 프롬프트 / Conditional Prompts</h3>
+                        <h4>시나리오 기반 / Scenario-Based</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                IF daytime THEN (golden hour lighting:1.2), warm colors<br>
+                                IF nighttime THEN (neon lighting:1.3), cool blue tones<br>
+                                IF indoor THEN soft lighting, intimate atmosphere<br>
+                                IF outdoor THEN natural lighting, expansive view
+                            </div>
+                        </div>
+                        <h4>단계별 진행 / Progressive Steps</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                STEP 1: establishing wide shot of location<br>
+                                STEP 2: medium shot introducing character<br>
+                                STEP 3: close-up showing emotion<br>
+                                STEP 4: action sequence with dynamic movement<br>
+                                STEP 5: resolution with peaceful ending
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>스타일 혼합 / Style Mixing</h3>
+                        <h4>장르 융합 / Genre Fusion</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">cyberpunk + film noir</div>
+                                <div class="keyword-desc">사이버펑크 + 필름 느와르 - 미래적 기술과 고전적 분위기</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">western + sci-fi</div>
+                                <div class="keyword-desc">웨스턴 + SF - 개척 정신과 우주적 스케일</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">horror + comedy</div>
+                                <div class="keyword-desc">공포 + 코미디 - 무서우면서도 유머러스한 대비</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">romance + thriller</div>
+                                <div class="keyword-desc">로맨스 + 스릴러 - 사랑과 긴장감의 극적 조화</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">documentary + fantasy</div>
+                                <div class="keyword-desc">다큐멘터리 + 판타지 - 현실감과 상상력의 독특한 결합</div>
+                            </div>
+                        </div>
+                        <h4>문화 혼합 / Cultural Mixing</h4>
+                        <div class="keyword-grid">
+                            <div class="keyword-item">
+                                <div class="keyword-term">japanese + scandinavian</div>
+                                <div class="keyword-desc">일본 + 스칸디나비아 - 동양의 정교함과 북유럽의 미니멀</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">african + futuristic</div>
+                                <div class="keyword-desc">아프리카 + 미래적 - 전통 문화와 첨단 기술</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">latin + cyberpunk</div>
+                                <div class="keyword-desc">라틴 + 사이버펑크 - 열정과 차가운 기술의 대비</div>
+                            </div>
+                            <div class="keyword-item">
+                                <div class="keyword-term">middle eastern + steampunk</div>
+                                <div class="keyword-desc">중동 + 스팀펑크 - 고대 문명과 기계 문명</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>메타 지시사항 / Meta Instructions</h3>
+                        <h4>품질 제어 / Quality Control</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                MUST HAVE: professional lighting, stable camera<br>
+                                SHOULD HAVE: 4K resolution, smooth transitions<br>
+                                NICE TO HAVE: color grading, motion graphics<br>
+                                AVOID: shaky footage, poor audio, overexposure
+                            </div>
+                        </div>
+                        <h4>스타일 일관성 / Style Consistency</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                MAINTAIN throughout: <br>
+                                - Color palette: warm earth tones<br>
+                                - Camera style: handheld documentary<br>
+                                - Editing pace: slow and contemplative<br>
+                                - Audio mood: ambient and peaceful
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>프롬프트 체인 / Prompt Chaining</h3>
+                        <h4>시퀀스 연결 / Sequence Linking</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                SCENE 1: (establishing shot:1.3) of bustling city street<br>
+                                TRANSITION: smooth camera push into building<br>
+                                SCENE 2: (medium shot:1.2) of character at desk<br>
+                                TRANSITION: zoom in for emotional moment<br>
+                                SCENE 3: (close-up:1.4) showing character's determination
+                            </div>
+                        </div>
+                        <h4>테마 발전 / Theme Development</h4>
+                        <div class="structure-box">
+                            <div class="structure-title">예시</div>
+                            <div class="formula">
+                                BEGINNING: introduce theme of "searching for truth"<br>
+                                MIDDLE: develop conflict around "hidden secrets"<br>
+                                END: resolve with "revelation and acceptance"<br>
+                                THROUGHOUT: maintain mood of "mysterious hope"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div> <a href="#" class="back-to-top" style="display: block;">&#9650; Top</a>
+    </div> </body>
+</html>
