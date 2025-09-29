@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Text Blog Food</title>
+  <style>
+    body { margin:0; padding:20px; font-family: 'Arial', sans-serif; background:#fff; }
+    .section {
+      margin-bottom: 40px;
+      padding: 30px;
+      background: #f8f9fa;
+      border-radius: 15px;
+      border-left: 5px solid #667eea;
+    }
+    .section h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .example-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border: 2px solid #e9ecef;
+    }
+    .example-title {
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    .example-content {
+      color: #495057;
+      line-height: 1.8;
+    }
+    .template-section {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      border-left: 5px solid #ff6b6b;
+      padding: 20px;
+      border-radius: 15px;
+    }
+    .template-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .copy-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .form-group { margin-bottom: 15px; display:flex; flex-direction:column; }
+    .form-label { font-weight:600; margin-bottom:5px; color:#2c3e50; }
+    .form-textarea {
+      padding:10px; border:1px solid #ccc; border-radius:6px;
+      min-height:80px; resize:vertical; font-family:inherit;
+    }
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<div class="welcome-content">
+  <!-- === 작성 예시 === -->
+  <div class="section">
+    <h2>📝 작성 예시</h2>
+    <p>춘천 닭갈비 식당을 운영하는 사장님의 홍보 블로그 작성 예시입니다.</p>
+
+    <div class="example-box">
+      <div class="example-title">🎯 역할</div>
+      <div class="example-content">너는 춘천에서 닭갈비 식당을 운영하고 있는 사장님이야.</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">📋 과업</div>
+      <div class="example-content">식당을 소개하는 홍보 블로그를 작성해줘.</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">💡 맥락</div>
+      <div class="example-content">우리 닭갈비 식당은 냉동 닭을 사용하지 않고 생닭을 사용하고, 닭갈비에 깻잎이 많이 들어가 있어 다른 닭갈비 식당과 차별점이 있어. 이런 차별점을 가지고 식당 홍보하는 블로그 글이 필요해.</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">🎨 어조</div>
+      <div class="example-content">블로그 특성에 맞게 작성해줘.</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">📄 형식</div>
+      <div class="example-content">사람들이 관심 가질만한 블로그 제목을 만들어주고, 글의 분량은 사람들이 간단하게 읽을 수 있게 써줘. 글 마지막에 기본정보 넣어주고, 기본정보의 "네이버지도 주소"는 하이퍼링크를 걸어줘.블로그 검색이 잘 되게 해시태그도 만들어줘.</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">ℹ️ 기본정보</div>
+      <div class="example-content">
+        <strong>📍 주소:</strong> 강원도 춘천시 중앙로 2가 123-45<br>
+        <strong>⏰ 영업시간:</strong> 매일 11:00 ~ 21:30 (라스트오더 21:00)<br>
+        <strong>🚗 주차:</strong> 매장 앞 3대 가능, 인근 공영주차장 이용<br>
+        <strong>☎️ 전화번호:</strong> 033-255-1234<br>
+        <strong>🚶 찾아오는길:</strong> 춘천역 1번 출구에서 도보 7분<br>
+        <strong>🗺️ 네이버지도:</strong> <a href="https://naver.me/GpqzVxyz" target="_blank" style="color: #667eea; text-decoration: underline;">춘천 깻잎닭갈비 바로가기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- === 실행 예시 === -->
+  <div class="section">
+    <h2>🎯 실행 예시</h2>
+    <p>위의 프롬프트를 사용하여 다양한 AI 도구에서 생성된 결과물 예시입니다.</p>
+
+    <div class="example-box">
+      <div class="example-title">💬 ChatGPT 결과</div>
+      <div class="example-content">... (ChatGPT 예시 텍스트 전체 그대로)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">🤖 Gemini 결과</div>
+      <div class="example-content">... (Gemini 예시 텍스트 전체 그대로)</div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-title">⚡ Claude 결과</div>
+      <div class="example-content">... (Claude 예시 텍스트 전체 그대로)</div>
+    </div>
+  </div>
+
+  <!-- === 블로그 고정 프롬프트 === -->
+  <div class="section template-section">
+    <div class="template-header">
+      <h2>블로그 고정 프롬프트</h2>
+      <button class="copy-btn" onclick="copyTemplate()">전체 복사</button>
+    </div>
+
+    <div class="template-form">
+      <div class="form-group">
+        <label class="form-label">🎭 역할</label>
+        <textarea class="form-textarea" id="role">너는 춘천에서 [ ]을 운영하고 있는 사장님이야.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">📋 과업</label>
+        <textarea class="form-textarea" id="task" readonly>식당을 소개하는 홍보 블로그를 작성해줘.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">💡 맥락</label>
+        <textarea class="form-textarea" id="context">우리 식당은 [ 다른 식당과 차별점 또는 식당 소개글 작성 ]. 식당 홍보하는 블로그 글이 필요해.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">🎨 어조</label>
+        <textarea class="form-textarea" id="tone" readonly>블로그 특성에 맞게 작성해줘.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">📄 형식</label>
+        <textarea class="form-textarea" id="format" readonly>사람들이 관심 가질 만한 블로그 제목을 만들어주고, 글의 분량은 사람들이 간단하게 읽을 수 있게 써줘. 글 마지막에 기본정보 넣어주고, 기본정보의 "네이버지도 주소"는 하이퍼링크를 걸어줘.블로그 검색이 잘 되게 해시태그도 만들어줘.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ℹ️ 기본정보</label>
+        <textarea class="form-textarea" id="basicInfo">[ 식당의 주소 ], [ 영업시간 ], [ 주차가능여부 ], [ 전화번호 ], [ 찾아오시는 길(예시: 춘천역 도보 O분) ], [ 식당의 네이버 주소 ]</textarea>
+      </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+      ✅ 템플릿이 클립보드에 복사되었습니다!
+    </div>
+  </div>
+</div>
+
+<script>
+function copyTemplate() {
+  const role = document.getElementById('role').value;
+  const task = document.getElementById('task').value;
+  const context = document.getElementById('context').value;
+  const tone = document.getElementById('tone').value;
+  const format = document.getElementById('format').value;
+  const basicInfo = document.getElementById('basicInfo').value;
+
+  const template = `역할
+
+${role}
+
+과업
+
+${task}
+
+맥락
+
+${context}
+
+어조
+
+${tone}
+
+형식
+
+${format}
+
+기본정보
+
+${basicInfo}`;
+
+  navigator.clipboard.writeText(template).then(() => {
+    const successMessage = document.getElementById('successMessage');
+    successMessage.style.display = 'block';
+    setTimeout(() => { successMessage.style.display = 'none'; }, 3000);
+  }).catch(err => {
+    console.error('복사 실패:', err);
+    alert('복사에 실패했습니다. 브라우저에서 수동으로 복사해주세요.');
+  });
+}
+</script>
+</body>
+</html>
