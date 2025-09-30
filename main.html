@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>춘천 소상공인 생성형 AI 활용 가이드</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+    
+    .content {
+      padding: 50px 40px;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .info-card {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 15px;
+      border-left: 5px solid #667eea;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .info-card h3 {
+      color: #667eea;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .info-card p {
+      color: #495057;
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+    
+    .info-card ul {
+      list-style: none;
+      color: #495057;
+      line-height: 2;
+      font-size: 1.05rem;
+    }
+    
+    .info-card ul li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    
+    .highlight-section {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      padding: 40px;
+      border-radius: 15px;
+      margin: 40px 0;
+      text-align: center;
+    }
+    
+    .highlight-section h2 {
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    
+    .highlight-section p {
+      color: #495057;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .footer {
+      background: #2c3e50;
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    .footer h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .footer p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+    
+    .footer a {
+      color: #a8edea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .icon {
+      font-size: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .header p {
+        font-size: 1rem;
+      }
+      
+      .content {
+        padding: 30px 20px;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 춘천 소상공인 생성형 AI 활용 가이드</h1>
+      <p>경쟁력 강화를 위한 스마트한 첫걸음</p>
+    </div>
+    
+    <div class="content">
+      <div class="info-grid">
+        <div class="info-card">
+          <h3><span class="icon">🎯</span> 대상</h3>
+          <p>춘천 지역 소상공인</p>
+        </div>
+        
+        <div class="info-card">
+          <h3><span class="icon">💡</span> 목적</h3>
+          <p>소상공인 경쟁력 강화를 위한 생성형 AI 활용 가이드 제공</p>
+        </div>
+        
+        <div class="info-card">
+          <h3><span class="icon">📋</span> 구성</h3>
+          <p>샘플 업종별 콘텐츠 생성 가이드</p>
+          <ul>
+            <li>요식업</li>
+            <li>카페</li>
+            <li>운동센터</li>
+          </ul>
+        </div>
+        
+        <div class="info-card">
+          <h3><span class="icon">✨</span> 생성 항목</h3>
+          <ul>
+            <li>Text-to-Text (텍스트 생성)</li>
+            <li>Text-to-Image (이미지 생성)</li>
+            <li>Text-to-Video (영상 생성)</li>
+            <li>Image-to-Video (이미지→영상)</li>
+          </ul>
+        </div>
+        
+        <div class="info-card">
+          <h3><span class="icon">📱</span> 활용 채널</h3>
+          <ul>
+            <li>블로그 콘텐츠</li>
+            <li>인스타그램 게시물</li>
+          </ul>
+        </div>
+        
+        <div class="info-card">
+          <h3><span class="icon">💰</span> 비용</h3>
+          <p>초기 무료 버전 활용<br>필요시 유료 버전 구독 안내</p>
+        </div>
+      </div>
+      
+      <div class="highlight-section">
+        <h2>📚 활용 방법</h2>
+        <p>
+          각 업종별 프롬프트 생성 방법을 참고하여<br>
+          여러분의 업종과 상황에 맞게 일부 내용을 변경하여 적용하세요!<br>
+          <strong>쉽고 빠르게 전문적인 콘텐츠를 만들 수 있습니다.</strong>
+        </p>
+      </div>
+      
+      <div class="info-grid">
+        <div class="info-card">
+          <h3><span class="icon">🤝</span> 지원</h3>
+          <p>춘천시 - 한림대학교 협력 프로젝트</p>
+        </div>
+        
+        <div class="info-card">
+          <h3><span class="icon">👨‍🏫</span> 운영 주체</h3>
+          <p>한림대학교 경영학과<br>황현석 교수</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <h3>📧 문의 및 상담</h3>
+      <p>
+        궁금하신 사항이나 도움이 필요하시면 언제든지 연락주세요.<br>
+        <a href="mailto:hshwang[at]hallym.ac.kr">hshwang[at]hallym.ac.kr</a>
+      </p>
+      <p style="margin-top: 30px; opacity: 0.7; font-size: 0.95rem;">
+        © 2025 한림대학교 경영학과 | 춘천시 소상공인 지원 사업
+      </p>
+    </div>
+  </div>
+</body>
+</html>
