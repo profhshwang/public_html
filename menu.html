@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,12 +57,11 @@
 <body>
   <div class="logo">
     <h1>🤖 AI 프롬프트</h1>
-    <p>소상공인을 위한 생성형 AI 가이드</p>
+    <p>소상공인을 위한 생성형 AI 가이드1</p>
   </div>
 
   <div class="menu">
     <ul>
-      <!-- Text-to-Text -->
       <li>
         <div class="menu-item level1">📝 Text-to-Text</div>
         <ul class="submenu">
@@ -78,73 +76,42 @@
           <li>
             <div class="menu-item level2">📸 Instagram</div>
             <ul class="submenu">
-              <li><a class="menu-item level3" href="contents4.html" target="contentFrame">🍕 음식</a></li>
-              <li><a class="menu-item level3" href="contents5.html" target="contentFrame">💪 운동</a></li>
-              <li><a class="menu-item level3" href="contents6.html" target="contentFrame">☕ 카페</a></li>
+              <li><a class="menu-item level3" href="/content/text-to-text/instagram-food" target="contentFrame">🍕 음식</a></li>
+              <li><a class="menu-item level3" href="/content/text-to-text/instagram-fitness" target="contentFrame">💪 운동</a></li>
+              <li><a class="menu-item level3" href="/content/text-to-text/instagram-cafe" target="contentFrame">☕ 카페</a></li>
             </ul>
           </li>
         </ul>
       </li>
 
-      <!-- Text-to-Image -->
       <li>
         <div class="menu-item level1">🎨 Text-to-Image</div>
         <ul class="submenu">
-          <li>
-            <div class="menu-item level2">📰 Blog</div>
-            <ul class="submenu">
-              <li><a class="menu-item level3" href="contents7.html" target="contentFrame">🍕 음식</a></li>
-              <li><a class="menu-item level3" href="contents8.html" target="contentFrame">💪 운동</a></li>
-              <li><a class="menu-item level3" href="contents9.html" target="contentFrame">☕ 카페</a></li>
-            </ul>
-          </li>
-          <li>
-            <div class="menu-item level2">📸 Instagram</div>
-            <ul class="submenu">
-              <li><a class="menu-item level3" href="contents10.html" target="contentFrame">🍕 음식</a></li>
-              <li><a class="menu-item level3" href="contents11.html" target="contentFrame">💪 운동</a></li>
-              <li><a class="menu-item level3" href="contents12.html" target="contentFrame">☕ 카페</a></li>
-            </ul>
-          </li>
+            <li><a class="menu-item level2" href="contents7.html" target="contentFrame">🍕 음식</a></li>
+            <li><a class="menu-item level2" href="contents8.html" target="contentFrame">💪 운동</a></li>
+            <li><a class="menu-item level2" href="contents9.html" target="contentFrame">☕ 카페</a></li>
         </ul>
       </li>
 
-      <!-- Text-to-Video -->
       <li>
         <div class="menu-item level1">🎬 Text-to-Video</div>
         <ul class="submenu">
-          <li>
-            <div class="menu-item level2">📰 Blog</div>
-            <ul class="submenu">
-              <li><a class="menu-item level3" href="contents13.html" target="contentFrame">🍕 음식</a></li>
-              <li><a class="menu-item level3" href="contents14.html" target="contentFrame">💪 운동</a></li>
-              <li><a class="menu-item level3" href="contents15.html" target="contentFrame">☕ 카페</a></li>
-            </ul>
-          </li>
-          <li>
-            <div class="menu-item level2">📸 Instagram</div>
-            <ul class="submenu">
-              <li><a class="menu-item level3" href="contents16.html" target="contentFrame">🍕 음식</a></li>
-              <li><a class="menu-item level3" href="contents17.html" target="contentFrame">💪 운동</a></li>
-              <li><a class="menu-item level3" href="contents18.html" target="contentFrame">☕ 카페</a></li>
-            </ul>
-          </li>
+            <li><a class="menu-item level2" href="contents13.html" target="contentFrame">🍕 음식</a></li>
+            <li><a class="menu-item level2" href="contents14.html" target="contentFrame">💪 운동</a></li>
+            <li><a class="menu-item level2" href="contents15.html" target="contentFrame">☕ 카페</a></li>
         </ul>
       </li>
 
-      <!-- Text-to-HTML (바로 링크) -->
       <li>
-        <a class="menu-item level1" href="./content/T2H.html" target="contentFrame">🌐 Text-to-HTML</a>
+        <a class="menu-item level1" href="T2H.html" target="contentFrame">🌐 Text-to-HTML</a>
       </li>
 
-      <!-- Image/Video Prompt Guide (바로 링크) -->
       <li>
-        <a class='menu-item level1' href='./content/T2IV_prompt_guide.html' target='contentFrame'>📘 Image/Video Prompt Guide</a>
+        <a class='menu-item level1' href='/T2IV_prompt_guide' target='contentFrame'>📘 Image/Video Prompt Guide</a>
       </li>
 
-      <!-- 참고자료 다운로드 (바로 링크) -->
       <li>
-        <a class='menu-item level1' href='./content/resources.html' target='contentFrame'>💾 참고자료</a>
+        <a class='menu-item level1' href='/content/resources' target='contentFrame'>💾 참고자료</a>
       </li>
     </ul>
   </div>
@@ -152,14 +119,20 @@
   <script>
     // 아코디언 메뉴 기능 (level3 제외)
     document.querySelectorAll('.menu-item').forEach(item => {
-      if (!item.classList.contains('level3') && !item.classList.contains('level1') || item.tagName !== 'A') {
+      // 'A' 태그가 아닌 menu-item에만 클릭 이벤트 리스너를 추가하여 아코디언 기능을 활성화합니다.
+      // level1 클래스를 가진 'A' 태그는 단순 링크이므로 제외합니다.
+      if (item.tagName !== 'A' && !item.classList.contains('level3')) {
         item.addEventListener('click', function(e) {
           e.stopPropagation();
           const parent = this.parentElement;
           const siblings = parent.parentElement.children;
+          // 다른 활성화된 메뉴를 닫습니다.
           for (let sibling of siblings) {
-            if (sibling !== parent) sibling.classList.remove('active');
+            if (sibling !== parent) {
+              sibling.classList.remove('active');
+            }
           }
+          // 현재 클릭한 메뉴의 활성 상태를 토글합니다.
           parent.classList.toggle('active');
         });
       }
