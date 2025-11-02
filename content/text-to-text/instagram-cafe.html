@@ -1,44 +1,235 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>Text-to-Text Instagram 카페 Prompt</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../../assets/css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인스타그램 카페 홍보 프롬프트 (수정 가능)</title>
+    <style>
+        /* 폰트 및 기본 설정: blog-restaurant.htm 유사 디자인 유지 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 컨텐츠 영역 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 주 제목 스타일 */
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* 섹션 제목 스타일 */
+        .section-heading {
+            font-size: 24px;
+            color: #9c6644; /* 카페에 어울리는 강조 색상 (브라운 계열) */
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* 요소 제목 스타일 */
+        .element-title {
+            font-size: 18px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 아이콘(이모지) 스타일 */
+        .element-title span[role="img"], .section-heading span[role="img"] {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        /* 일반 단락 스타일 */
+        p {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+        
+        /* 구분선 스타일 */
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ecf0f1;
+            margin: 40px 0;
+        }
+
+        /* 텍스트 영역 스타일: textarea를 코드 블록처럼 보이게 스타일링 */
+        .code-block-container {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        #promptTemplate {
+            width: 100%;
+            min-height: 200px; /* 충분한 높이 */
+            box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 */
+            background-color: #f0f4f7; 
+            border: 1px solid #dfe6e9; 
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 15px;
+            color: #2c3e50;
+            resize: vertical; /* 수직 크기 조절만 허용 */
+            line-height: 1.5;
+        }
+
+        /* 복사 버튼 스타일 */
+        .copy-button {
+            /* 텍스트 영역 아래에 배치하도록 위치 수정 */
+            float: right; 
+            margin-top: 10px;
+            background-color: #9c6644; /* 카페 강조 색상에 맞춤 */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background-color: #7f5539;
+        }
+
+        /* float 해제 */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
 </head>
 <body>
-    <div class="content-wrapper">
+    <div class="container">
+        
         <h1>인스타그램 카페 홍보 게시글 작성 프롬프트</h1>
-        <section class="prompt-section">
-            <h2>기본 프롬프트</h2>
-            <div class="prompt-box">
-                <p>다음 정보로 인스타그램 게시글을 작성해주세요:</p>
-                <ul>
-                    <li>카페명: [상호명]</li>
-                    <li>위치 태그: [위치]</li>
-                    <li>메뉴: [메뉴명]</li>
-                    <li>분위기: [분위기]</li>
-                </ul>
-                <p>게시글 구성:</p>
-                <ul>
-                    <li>감성적인 첫 문장</li>
-                    <li>메뉴 소개 (이모티콘 활용)</li>
-                    <li>영업시간 및 위치</li>
-                    <li>해시태그 (최소 10개)</li>
-                </ul>
+
+        <h2 class="section-heading">
+            <span role="img" aria-label="memo">📝</span> 작성 예시 (Instagram)
+        </h2>
+        
+        <p>다음 정보로 인스타그램 게시글을 작성하기 위한 프롬프트의 구성 요소 예시입니다.</p>
+        
+        <div class="prompt-elements-group"> 
+            
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="target">🎯</span> 역할
+                </h3>
+                <p>카페 사장님 또는 카페 컨텐츠 마케터의 페르소나 설정 및 대상 독자 정의</p>
             </div>
-        </section>
-        <section class="prompt-section">
-            <h2>예시 프롬프트</h2>
-            <div class="prompt-box">
-                <pre>
-[카페명]의 [메뉴명]을 소개하는 인스타그램 게시글을 작성해주세요.
-다음 키워드를 반드시 포함해주세요: [키워드1, 키워드2, 키워드3]
-카페의 [분위기]한 분위기가 잘 드러나도록 감성적인 문구로 작성해주세요.
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="clipboard">📋</span> 과업
+                </h3>
+                <p>인스타그램 피드용 신메뉴, 분위기 또는 이벤트 홍보 게시글 작성 요청</p>
+            </div>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="lightbulb">💡</span> 핵심 정보 (필수 포함)
+                </h3>
+                <p><strong>카페 이름</strong>, <strong>위치 태그</strong>, <strong>메뉴 이름/특징</strong>, <strong>분위기/인테리어</strong> 등 게시글에 반드시 들어가야 할 정보 제공</p>
+            </div>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="art-palette">🎨</span> 어조
+                </h3>
+                <p>따뜻하고 감성적이며 방문을 유도하는 친근한 어조</p>
+            </div>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="page">📄</span> 형식 및 구성
+                </h3>
+                <p>감성을 자극하는 첫 문장, 이모티콘 활용, 필수 정보, 그리고 **관련성 높은 해시태그 (최소 10개)** 포함</p>
+            </div>
+            
+        </div>
+
+        <hr>
+        
+        <h2 class="section-heading">
+            <span role="img" aria-label="magic-wand">✨</span> 인스타그램 고정 프롬프트 템플릿 (수정 가능)
+        </h2>
+        
+        <p>아래 프롬프트 내용을 직접 수정하고, '수정 내용 복사' 버튼을 눌러 AI 도구에 바로 붙여넣기 하세요.</p>
+        
+        <div class="code-block-container clearfix">
+            <textarea id="promptTemplate">
+[카페 이름]의 [메뉴 이름/특징]을 소개하는 감성적인 인스타그램 게시글을 작성해주세요.
+
+다음 키워드를 반드시 포함해주세요: [키워드1, [분위기], [계절적 요소]]
+
+따뜻하고 감성적인 문구와 이모티콘을 사용하여 작성해주세요.
+
 위치태그: [위치]
-해시태그는 카페 관련 태그로 10-15개 추가해주세요.
-                </pre>
-            </div>
-        </section>
+
+해시태그는 카페, 감성, 메뉴 관련성 높은 것으로 10-15개 추가해주세요.
+</textarea>
+            <button class="copy-button" onclick="copyToClipboard('promptTemplate')">수정 내용 복사</button>
+        </div>
+        
     </div>
+
+    <script>
+        /**
+         * 지정된 ID를 가진 텍스트 영역의 내용을 클립보드에 복사합니다.
+         * @param {string} elementId - 복사할 텍스트 영역의 ID
+         */
+        function copyToClipboard(elementId) {
+            const textarea = document.getElementById(elementId);
+            const button = document.querySelector('.copy-button');
+            const originalText = button.textContent;
+
+            // 텍스트 영역 내용을 복사
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // 모바일 지원
+            
+            // navigator.clipboard API 사용 (최신 권장 방식)
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                // 성공 시 버튼 텍스트 변경
+                button.textContent = '✅ 복사 완료!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 1500);
+            }).catch(err => {
+                // 실패 시 (보안 문제 등)
+                console.error('복사 실패: ', err);
+                // execCommand는 대체 수단으로만 사용
+                try {
+                    document.execCommand('copy');
+                    button.textContent = '✅ 복사 완료!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 1500);
+                } catch (e) {
+                    alert('클립보드 복사에 실패했습니다. 내용을 수동으로 복사해주세요.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
