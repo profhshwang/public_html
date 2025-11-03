@@ -199,6 +199,14 @@
             border-left: 5px solid #f5576c;
         }
         
+        .image-placeholder img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+        
         .ai-badge {
             display: inline-block;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -315,17 +323,17 @@
                 <h2 class="section-title">🎯 운동 동작 이미지를 생성하는 방법</h2>
                 
                 <div class="comparison-table">
-                    <div class="comparison-card">
+                    <div class="comparison-card" style="display: block; width: 100%; margin-bottom: 20px;">
                         <h4>📄 방법 1: 보고서 → 이미지</h4>
                         <p>보고서 작성 후 이미지 생성 프롬프트를 얻어 이미지 생성</p>
                     </div>
                     
-                    <div class="comparison-card">
+                    <div class="comparison-card" style="display: block; width: 100%; margin-bottom: 20px;">
                         <h4>📝 방법 2: 블로그 글 → 이미지</h4>
                         <p>보고서 작성 후 블로그 글을 작성하여 블로그 글에 알맞은 이미지 생성 프롬프트를 얻어 이미지 생성</p>
                     </div>
                     
-                    <div class="comparison-card">
+                    <div class="comparison-card" style="display: block; width: 100%; margin-bottom: 20px;">
                         <h4>📸 방법 3: 실제 사진 → 수정</h4>
                         <p>실제 사진을 넣어 원하는 방향으로 직접 이미지를 수정하여 생성 (복잡한 운동 동작에 적합)</p>
                     </div>
@@ -825,7 +833,7 @@
                 
                 <div class="image-placeholder">
                     <p>📷 이미지를 이용한 이미지 생성 프롬프트 예시</p>
-                    <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-fitness-013.png" alt="이미지를 이용한 이미지"></p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-fitness-013.png" alt="이미지를 이용한 이미지" style="max-width: 100%; height: auto;"></p>
                 </div>
             </div>
             
@@ -854,7 +862,7 @@
                 
                 <div class="image-placeholder">
                     <p>📷 이미지 수정 프롬프트 예시</p>
-                    <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-fitness-015.png" alt="이미지 수정"></p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-fitness-015.png" alt="이미지 수정" style="max-width: 100%; height: auto;"></p>
                 </div>
             </div>
             

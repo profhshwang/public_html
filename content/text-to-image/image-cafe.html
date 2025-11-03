@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☕ 카페 Text-to-image 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffd1b3 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff6b9d;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #ff6b9d;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: #ff6b9d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .tool-link:hover {
+            background: #ff9a9e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        tr:hover {
+            background: #fff5f8;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .tip-box {
+            background: #e7f3ff;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        
+        .image-placeholder {
+            background: #f5f7fa;
+            border: 2px dashed #ff6b9d;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            color: #ff6b9d;
+        }
+        
+        .image-placeholder img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prompt-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #ff6b9d;
+        }
+        
+        .ai-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 10px 0 10px 40px;
+            position: relative;
+        }
+        
+        ul li:before {
+            content: "✅";
+            position: absolute;
+            left: 10px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #ff6b9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☕ 카페 Text-to-image</h1>
+            <p>AI를 활용한 카페 이미지 생성 완벽 가이드</p>
+        </div>
+        
+        <div class="content">
+            <!-- 프롬프트 작성 순서 -->
+            <div class="section">
+                <h2 class="section-title">📝 프롬프트 작성 순서</h2>
+                
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    <strong>카페 사진 준비</strong>
+                    <p style="margin-left: 45px; margin-top: 10px;">
+                        카페의 배경과 디저트, 음료 사진을 준비합니다.
+                    </p>
+                </div>
+                
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    <strong>프롬프트 가이드 작성</strong>
+                    <p style="margin-left: 45px; margin-top: 10px;">
+                        프롬프트 가이드에 맞춰 프롬프트를 작성합니다.
+                    </p>
+                </div>
+                
+                <div class="step-box">
+                    <span class="step-number">3</span>
+                    <strong>AI로 상세 프롬프트 생성</strong>
+                    <p style="margin-left: 45px; margin-top: 10px;">
+                        작성한 프롬프트를 Chat GPT, Gemini, Claude에 준비한 카페의 배경과 디저트, 음료 사진을 함께 넣어서 자세한 이미지 생성 프롬프트를 얻습니다.
+                    </p>
+                    <div style="margin-left: 45px; margin-top: 15px;">
+                        <a href="https://chatgpt.com" class="tool-link" target="_blank">🤖 Chat GPT</a>
+                        <a href="https://gemini.google.com" class="tool-link" target="_blank">✨ Gemini</a>
+                        <a href="https://claude.ai" class="tool-link" target="_blank">🧠 Claude</a>
+                    </div>
+                </div>
+                
+                <div class="step-box">
+                    <span class="step-number">4</span>
+                    <strong>이미지 생성</strong>
+                    <p style="margin-left: 45px; margin-top: 10px;">
+                        Chat GPT, Gemini, Claude에서 얻은 프롬프트와 카페의 배경, 디저트, 음료 사진을 나노바나나에 넣어 이미지를 생성합니다.
+                    </p>
+                    <div style="margin-left: 45px; margin-top: 15px;">
+                        <a href="https://aistudio.google.com/prompts/new_chat?model=gemini-2.5-flash-image" class="tool-link" target="_blank">🌟 나노바나나</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 작성 전 주의사항 -->
+            <div class="section">
+                <h2 class="section-title">⚠️ 작성 전 주의사항</h2>
+                
+                <div class="warning-box">
+                    <strong>🚨 중요 사항</strong>
+                    <ul>
+                        <li><strong>카페 배경 사진:</strong> 정면 사진을 넣어주면 더 자연스러운 이미지 생성이 가능합니다</li>
+                        <li><strong>이미지 비율:</strong> 구글 AI 스튜디오(나노바나나)에 사진을 첨부할 때 <strong>두 번째 사진의 비율로 생성</strong>되므로 첨부 순서에 유의해야 합니다</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 프롬프트 가이드 -->
+            <div class="section">
+                <h2 class="section-title">📋 프롬프트 가이드</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>제안</strong></td>
+                            <td>다음은 카페의 사진을 생성하기 위한 프롬프트 가이드야. 프롬프트 가이드를 활용하여 만든 예시프롬프트도 아래에 제시했어. 가이드를 고려하여 더 나은 프롬프트를 한글과 영어로 제안해줘. 이미지를 생성하기에 참고할만한 이미지를 첨부했어. 참고해서 프롬프트 작성해줘.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>프롬프트 형식</strong></td>
+                            <td>주체, 배경 및 환경, 매체 및 스타일, 세부 묘사 및 특수 효과, 구도 및 앵글, 조명, 색상 및 분위기</td>
+                        </tr>
+                        <tr>
+                            <td><strong>주체</strong></td>
+                            <td>카페에서 한국인 남자여자 커플이 첨부한 사진의 감자빵과 아이스 아메리카노를 맛있게 먹고 있는</td>
+                        </tr>
+                        <tr>
+                            <td><strong>배경 및 환경</strong></td>
+                            <td>한국의 카페 창문이 크게 있고, 밖에 감자밭 풍경이 잘 보이는</td>
+                        </tr>
+                        <tr>
+                            <td><strong>매체 및 스타일</strong></td>
+                            <td>사실적 이미지</td>
+                        </tr>
+                        <tr>
+                            <td><strong>세부 묘사 및 특수효과</strong></td>
+                            <td>1080P 화질, 16:9 화면 비율</td>
+                        </tr>
+                        <tr>
+                            <td><strong>구도 및 앵글</strong></td>
+                            <td>구도는 정면</td>
+                        </tr>
+                        <tr>
+                            <td><strong>조명</strong></td>
+                            <td>채광과 카페의 밝은 조명</td>
+                        </tr>
+                        <tr>
+                            <td><strong>색상 및 분위기</strong></td>
+                            <td>즐겁고 맛있게 먹고 있는 분위기</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 프롬프트 작성 예시 -->
+            <div class="section">
+                <h2 class="section-title">✍️ 프롬프트 작성 예시 (Chat GPT, Gemini, Claude)</h2>
+                
+                <div class="code-box">
+(카페의 배경사진과 디저트, 음료사진을 첨부)
+
+다음은 카페의 사진을 생성하기 위한 프롬프트 가이드야. 프롬프트 가이드를 활용하여 만든 예시프롬프트도 아래에 제시했어. 가이드를 고려하여 더 나은 프롬프트를 한글과 영어로 제안해줘. 이미지를 생성하기에 참고할만한 이미지를 첨부했어. 참고해서 프롬프트 작성해줘.
+
+--
+#프롬프트형식
+주체, 배경 및 환경, 매체 및 스타일, 세부 묘사 및 특수 효과, 구도 및 앵글, 조명, 색상 및 분위기
+
+#예시프롬프트 
+주체 : 카페에서 한국인 남자여자 커플이 첨부한 사진의 감자빵과 아이스 아메리카노를 맛있게 먹고 있는
+배경 및 환경 : 한국의 카페 창문이 크게 있고, 밖에 감자밭 풍경이 잘 보이는
+매체 및 스타일 : 사실적 이미지
+세부 묘사 및 특수 효과 : 1080P 화질, 16:9 화면 비율
+구도 및 앵글 : 구도는 정면
+조명 : 채광과 카페의 밝은 조명
+색상 및 분위기 : 즐겁고 맛있게 먹고 있는 분위기
+--
+                </div>
+            </div>
+            
+            <!-- 고정 프롬프트 가이드 -->
+            <div class="section">
+                <h2 class="section-title">🔧 고정 프롬프트 가이드 (템플릿)</h2>
+                
+                <div class="tip-box">
+                    <strong>💡 참고자료</strong>
+                    <p>주체, 배경 및 환경, 매체 및 스타일, 세부 묘사 및 특수효과, 구도 및 앵글, 조명, 색상 및 분위기를 작성할 때는 <strong>홈페이지의 참고자료 탭</strong>을 참고해서 작성하는 것을 추천합니다.</p>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>제안</strong></td>
+                            <td>다음은 카페의 사진을 생성하기 위한 프롬프트 가이드야. 프롬프트 가이드를 활용하여 만든 예시프롬프트도 아래에 제시했어. 가이드를 고려하여 더 나은 프롬프트를 한글과 영어로 제안해줘. 이미지를 생성하기에 참고할만한 이미지를 첨부했어. 참고해서 프롬프트 작성해줘.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>프롬프트 형식</strong></td>
+                            <td>주체, 배경 및 환경, 매체 및 스타일, 세부 묘사 및 특수 효과, 구도 및 앵글, 조명, 색상 및 분위기</td>
+                        </tr>
+                        <tr>
+                            <td><strong>주체</strong></td>
+                            <td>[ 원하는 상황(자세하게 설명할수록 더 좋음) ]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>배경 및 환경</strong></td>
+                            <td>[ 첨부한 사진의 카페배경 ]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>매체 및 스타일</strong></td>
+                            <td>사실적 이미지</td>
+                        </tr>
+                        <tr>
+                            <td><strong>세부 묘사 및 특수효과</strong></td>
+                            <td>[ 원하는 화질, 원하는 화면 비율 ]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>구도 및 앵글</strong></td>
+                            <td>[ 원하는 구도와 앵글 ]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>조명</strong></td>
+                            <td>[ 원하는 조명(예시 : 채광, 식당의 조명 등) ]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>색상 및 분위기</strong></td>
+                            <td>[ 원하는 색상 및 분위기 ]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 프롬프트 결과 -->
+            <div class="section">
+                <h2 class="section-title">🎯 프롬프트 결과 (AI별 비교)</h2>
+                
+                <!-- Chat GPT -->
+                <div class="prompt-card">
+                    <span class="ai-badge">🤖 Chat GPT</span>
+                    
+                    <h3>🌿 한글 프롬프트 제안</h3>
+                    <p><strong>주체:</strong> 카페 야외 테이블에서 감자빵과 아이스 아메리카노를 즐기는 한국인 커플</p>
+                    
+                    <p><strong>배경 및 환경:</strong> 감자밭이 보이는 춘천의 감자 테마 카페, 나무 테이블과 따뜻한 햇살이 비치는 평온한 오후 분위기</p>
+                    
+                    <p><strong>매체 및 스타일:</strong> 고해상도 사실적 사진 스타일, 자연광 포토그래피</p>
+                    
+                    <p><strong>세부 묘사 및 특수 효과:</strong> 감자빵의 질감과 속살이 잘 드러나며 김이 살짝 나는 디테일, 커피잔에 맺힌 물방울, 4K UHD 화질</p>
+                    
+                    <p><strong>구도 및 앵글:</strong> 테이블 위에서 커플이 감자빵을 나누며 웃고 있는 장면을 정면 혹은 약간 사선 구도로 촬영</p>
+                    
+                    <p><strong>조명:</strong> 따뜻한 자연광 + 은은한 반사광, 오후 햇살의 부드러운 그림자</p>
+                    
+                    <p><strong>색상 및 분위기:</strong> 따뜻한 베이지와 브라운 톤 중심, 편안하고 감성적인 분위기, 향긋한 커피향과 고소한 감자향이 느껴지는 장면</p>
+                    
+                    <h3 style="margin-top: 20px;">☕ English Prompt Suggestion</h3>
+                    <p><strong>Subject:</strong> A Korean couple enjoying a potato bread and iced Americano at an outdoor café table</p>
+                    
+                    <p><strong>Background & Environment:</strong> A cozy potato-themed café in Chuncheon with a view of potato fields, wooden tables, and warm afternoon sunlight</p>
+                    
+                    <p><strong>Medium & Style:</strong> Realistic high-resolution photo style, natural light photography</p>
+                    
+                    <p><strong>Details & Effects:</strong> Detailed texture of the potato bread with a slightly steamy interior, condensation on the coffee cup, captured in 4K UHD</p>
+                    
+                    <p><strong>Composition & Angle:</strong> Front or slightly diagonal angle showing the couple sharing potato bread at the table with smiles</p>
+                    
+                    <p><strong>Lighting:</strong> Warm natural sunlight with soft reflected light and gentle afternoon shadows</p>
+                    
+                    <p><strong>Color & Mood:</strong> Warm beige and brown tones, cozy and heartwarming atmosphere evoking the aroma of coffee and baked potatoes</p>
+                </div>
+                
+                <!-- Gemini -->
+                <div class="prompt-card">
+                    <span class="ai-badge">✨ Gemini</span>
+                    
+                    <h3>🇰🇷 한글 프롬프트</h3>
+                    <p><strong>주체:</strong> 한국인 남자와 여자 커플이 마주 앉아 첨부된 사진 속 감자빵을 나눠 먹으며 행복하게 미소 짓고 있는 모습</p>
+                    
+                    <p><strong>배경 및 환경:</strong> 모던하고 따뜻한 분위기의 한국 카페 창가 테이블. 테이블 위에는 김이 나는 따뜻한 감자빵과 시원한 아이스 아메리카노 두 잔이 놓여 있고, 창밖으로는 햇살 가득한 초록빛 감자밭 풍경이 펼쳐져 있는</p>
+                    
+                    <p><strong>매체 및 스타일:</strong> 매우 사실적인 질감과 디테일이 살아있는 실사 사진 스타일</p>
+                    
+                    <p><strong>세부 묘사 및 특수 효과:</strong> 1080P 고화질, 16:9 화면 비율</p>
+                    
+                    <p><strong>구도 및 앵글:</strong> 인물과 음식에 초점을 맞춘 클로즈업 샷, 살짝 위에서 아래를 내려다보는 하이 앵글</p>
+                    
+                    <p><strong>조명:</strong> 창문으로 들어오는 부드러운 자연광과 카페 내부의 따뜻하고 은은한 간접 조명이 조화롭게 어우러진</p>
+                    
+                    <p><strong>색상 및 분위기:</strong> 전체적으로 밝고 생동감 있는 색감, 즐겁고 편안한 데이트의 따뜻하고 아늑한 분위기</p>
+                    
+                    <h3 style="margin-top: 20px;">🇺🇸 English Prompt</h3>
+                    <p><strong>Subject:</strong> A Korean couple (man and woman) sitting opposite each other, happily smiling and sharing the potato bread from the attached photo.</p>
+                    
+                    <p><strong>Background & Environment:</strong> A window table in a modern and cozy Korean cafe. On the table, there is warm, steaming potato bread and two glasses of iced americano. Outside the window, a sunlit, green potato field unfolds.</p>
+                    
+                    <p><strong>Medium & Style:</strong> A photorealistic style with highly realistic textures and vivid details.</p>
+                    
+                    <p><strong>Detailed Description & Special Effects:</strong> 1080P high definition, 16:9 aspect ratio.</p>
+                    
+                    <p><strong>Composition & Angle:</strong> A close-up shot focusing on the couple and the food, from a slightly high-angle perspective looking down.</p>
+                    
+                    <p><strong>Lighting:</strong> A harmonious blend of soft natural light coming through the window and the warm, subtle indirect lighting of the cafe interior.</p>
+                    
+                    <p><strong>Color & Atmosphere:</strong> An overall bright and vibrant color palette, creating a warm, cozy, and joyful atmosphere of a relaxed date.</p>
+                </div>
+                
+                <!-- Claude -->
+                <div class="prompt-card">
+                    <span class="ai-badge">🧠 Claude</span>
+                    
+                    <h3>🇰🇷 개선된 프롬프트 (한글)</h3>
+                    <p><strong>주체:</strong> 20-30대 한국인 커플이 테이블에 놓인 황금빛 겉면에 후추가 뿌려진 바삭한 감자빵(속이 하얗고 폭신한 구조가 보이는)과 투명한 유리잔에 담긴 아이스 아메리카노를 함께 나누며 미소 짓고 있는 장면</p>
+                    
+                    <p><strong>배경 및 환경:</strong> 넓은 통창이 있는 모던한 한국 카페 인테리어, 창밖으로 푸른 감자밭과 하늘이 시원하게 펼쳐진 전원 풍경, 원목 테이블과 심플한 화이트 플레이팅</p>
+                    
+                    <p><strong>매체 및 스타일:</strong> 자연스러운 라이프스타일 포토그래피, 푸드 포토그래피 기법을 활용한 사실적 이미지</p>
+                    
+                    <p><strong>세부 묘사 및 특수 효과:</strong> 1080P 고해상도, 16:9 비율, 감자빵의 바삭한 질감과 내부의 부드러운 결이 살아있는 디테일, 아이스 아메리카노의 얼음과 응축된 물방울이 보이는 생동감</p>
+                    
+                    <p><strong>구도 및 앵글:</strong> 정면에서 약간 높은 각도(45도), 커플과 음식이 모두 프레임 안에 균형있게 배치, 전경에 감자빵 클로즈업, 중경에 커플, 후경에 창밖 풍경</p>
+                    
+                    <p><strong>조명:</strong> 창문으로 들어오는 부드러운 자연광(골든아워 느낌)과 카페 실내의 따뜻한 조명이 조화를 이루는 밝고 깨끗한 분위기</p>
+                    
+                    <p><strong>색상 및 분위기:</strong> 감자빵의 황금빛 컬러를 강조, 따뜻한 베이지-브라운 톤과 시원한 그린 톤의 대비, 행복하고 여유로운 데이트 분위기</p>
+                    
+                    <h3 style="margin-top: 20px;">🇺🇸 Improved Prompt (English)</h3>
+                    <p><strong>Subject:</strong> A Korean couple in their 20s-30s sharing and enjoying golden-brown potato bread with pepper seasoning (showing fluffy white interior texture) and iced Americano in clear glasses on a wooden table, smiling warmly at each other</p>
+                    
+                    <p><strong>Background & Environment:</strong> Modern Korean café interior with large panoramic windows, scenic view of lush green potato fields and sky outside, minimalist wooden table with simple white ceramic plates and cutlery</p>
+                    
+                    <p><strong>Medium & Style:</strong> Natural lifestyle photography combined with professional food photography techniques, photorealistic rendering</p>
+                    
+                    <p><strong>Details & Special Effects:</strong> 1080P high resolution, 16:9 aspect ratio, crispy texture of potato bread exterior and soft fluffy crumb structure clearly visible, condensation droplets on iced Americano glass for freshness</p>
+                    
+                    <p><strong>Composition & Angle:</strong> Front-facing shot with slightly elevated angle (45 degrees), balanced composition with potato bread in foreground, couple in mid-ground, and window view in background, rule of thirds applied</p>
+                    
+                    <p><strong>Lighting:</strong> Soft natural window light with golden hour quality blending with warm café interior lighting, creating a bright and inviting atmosphere with gentle shadows</p>
+                    
+                    <p><strong>Color & Mood:</strong> Emphasizing the golden-brown tones of potato bread, warm beige-brown palette contrasting with cool green tones from outdoor scenery, cheerful and relaxed café date atmosphere, appetizing and inviting mood</p>
+                </div>
+            </div>
+            
+            <!-- 프롬프트 작성 예시 (나노바나나) -->
+            <div class="section">
+                <h2 class="section-title">🌟 프롬프트 작성 예시 (나노바나나)</h2>
+                
+                <div class="code-box">
+(식당의 배경사진과 음식사진을 첨부)
+
+(Chat GPT, Gemini, Claude에서 나온 결과물 중 괜찮은 프롬프트를 골라서 영어로 되어 있는 부분을 붙여넣기)
+
+첨부된 사진의 디저트, 음료사진과 배경사진을 바탕으로 이미지를 생성해줘. 
+(첨부한 사진을 반영할 수 있게 위에 글을 영어로 작성해야함.)
+                </div>
+                
+                <div class="info-box">
+                    <strong>ℹ️ 추가 팁</strong>
+                    <ul>
+                        <li><strong>추가 요청:</strong> 프롬프트에 나와있는 반영사항 중 추가로 요청할 경우 <a href="https://www.deepl.com/ko/translator" target="_blank" style="color: #17a2b8; font-weight: bold;">DeepL</a>을 이용하여 영어로 번역하여 내용을 추가하면 됩니다</li>
+                        <li><strong>화질 조정:</strong> Chat GPT, Gemini, Claude의 프롬프트의 경우 화질 설정이 4K 고화질이기 때문에 화질은 1080P로 변경해도 상관없습니다</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 생성형 AI 프롬프트 나노바나나 결과물 -->
+            <div class="section">
+                <h2 class="section-title">🎨 생성형 AI 프롬프트 나노바나나 결과물</h2>
+                
+                <div class="success-box">
+                    <strong>✅ 생성 완료!</strong>
+                    <p>위의 프롬프트를 나노바나나에 입력하여 생성된 이미지입니다.</p>
+                </div>
+                
+                <div class="comparison-grid">
+                    <div class="image-placeholder">
+                        <p>📷 Chat GPT 프롬프트 결과</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-cafe-001.png" alt="ChatGPT 생성 이미지"></p>
+                    </div>
+                    
+                    <div class="image-placeholder">
+                        <p>📷 Gemini 프롬프트 결과</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-cafe-003.png" alt="Gemini 생성 이미지"></p>
+                    </div>
+                    
+                    <div class="image-placeholder">
+                        <p>📷 Claude 프롬프트 결과</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;"><img src="image-cafe-005.png" alt="Claude 생성 이미지"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 마무리 -->
+            <div class="section">
+                <div class="success-box">
+                    <h3>🎉 카페 이미지 생성 가이드 완료!</h3>
+                    <p>이 가이드를 따라 매력적인 카페 이미지를 생성해보세요.</p>
+                    <ul style="margin-top: 15px;">
+                        <li><strong>준비:</strong> 카페 배경, 디저트, 음료 사진 준비</li>
+                        <li><strong>작성:</strong> 가이드에 맞춰 프롬프트 작성</li>
+                        <li><strong>개선:</strong> AI 도구로 상세 프롬프트 생성</li>
+                        <li><strong>생성:</strong> 나노바나나로 최종 이미지 생성</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>🔗 유용한 링크 모음</strong>
+                    <div style="margin-top: 15px;">
+                        <a href="https://chatgpt.com" class="tool-link" target="_blank">🤖 Chat GPT</a>
+                        <a href="https://gemini.google.com" class="tool-link" target="_blank">✨ Gemini</a>
+                        <a href="https://claude.ai" class="tool-link" target="_blank">🧠 Claude</a>
+                        <a href="https://aistudio.google.com/prompts/new_chat?model=gemini-2.5-flash-image" class="tool-link" target="_blank">🌟 나노바나나</a>
+                        <a href="https://www.deepl.com/ko/translator" class="tool-link" target="_blank">🌐 DeepL 번역</a>
+                    </div>
+                </div>
+                
+                <div class="tip-box" style="margin-top: 20px;">
+                    <strong>💡 프로 팁</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>카페 배경 사진은 정면에서 촬영한 것을 사용하세요</li>
+                        <li>나노바나나에서 두 번째 사진의 비율로 생성되므로 순서에 주의하세요</li>
+                        <li>디테일을 자세히 설명할수록 더 좋은 결과를 얻을 수 있습니다</li>
+                        <li>홈페이지의 참고자료 탭을 활용하여 프롬프트를 작성하세요</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
