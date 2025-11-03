@@ -1,89 +1,252 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏋️ Text-to-Text Blog 운동 Prompt</title>
-    <link rel="stylesheet" href="../../assets/css/main.css">
+    <title>피트니스 홍보 블로그 작성 프롬프트</title>
     <style>
-        .emoji-header {
-            display: inline-block;
+        /* 폰트 및 기본 설정: blog-restaurant.htm 유사 디자인 유지 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 컨텐츠 영역 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 주 제목 스타일 */
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* 섹션 제목 스타일 */
+        .section-heading {
+            font-size: 24px;
+            color: #27ae60; /* 피트니스 강조 색상 (녹색 계열) */
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* 요소 제목 스타일 */
+        .element-title {
+            font-size: 18px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 아이콘(이모지) 스타일 */
+        .element-title span[role="img"], .section-heading span[role="img"] {
+            font-size: 1.2em;
             margin-right: 8px;
         }
-        .info-item {
-            margin: 10px 0;
-            padding-left: 5px;
+
+        /* 일반 단락 스타일 */
+        p {
+            margin-bottom: 15px;
+            padding-left: 30px;
         }
-        .highlight-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
+        
+        /* 구분선 스타일 */
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ecf0f1;
+            margin: 40px 0;
+        }
+        
+        /* 코드 블록 스타일: 수정 가능한 textarea 스타일 */
+        .code-block-container {
+            position: relative;
             margin: 20px 0;
+        }
+        
+        #promptTemplate {
+            width: 100%;
+            min-height: 250px; /* 블로그 프롬프트는 내용이 길 수 있어 높이 증가 */
+            box-sizing: border-box; 
+            background-color: #f0f4f7; 
+            border: 1px solid #dfe6e9; 
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 15px;
+            color: #2c3e50;
+            resize: vertical; 
+            line-height: 1.5;
+        }
+
+        /* 복사 버튼 스타일 */
+        .copy-button {
+            float: right; 
+            margin-top: 10px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background-color: #229954;
+        }
+
+        /* float 해제 */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
         }
     </style>
 </head>
 <body>
-    <div class="content-wrapper">
-        <h1>🏋️‍♀️ 운동시설 블로그 홍보글 작성 프롬프트 💪</h1>
+    <div class="container">
         
-        <section class="prompt-section">
-            <h2><span class="emoji-header">📝</span>기본 프롬프트</h2>
-            <div class="prompt-box">
-                <p>✨ 다음 정보를 바탕으로 운동시설 블로그 포스팅을 작성해주세요:</p>
-                
-                <div class="info-item">📍 <strong>시설명:</strong> [시설명]</div>
-                <div class="info-item">🗺️ <strong>위치:</strong> [주소]</div>
-                <div class="info-item">💪 <strong>전문분야:</strong> [운동 종류]</div>
-                <div class="info-item">💰 <strong>이용료:</strong> [가격 정보]</div>
-                <div class="info-item">⭐ <strong>시설 특징:</strong> [특징]</div>
-                <div class="info-item">🎯 <strong>프로그램:</strong> [프로그램 종류]</div>
-                
-                <br>
-                <p>📋 <strong>글의 구성:</strong></p>
-                <ul>
-                    <li>🏢 시설 소개</li>
-                    <li>📚 프로그램 설명</li>
-                    <li>👨‍🏫 트레이너 소개</li>
-                    <li>✅ 시설 장점</li>
-                    <li>ℹ️ 이용 안내</li>
-                </ul>
-            </div>
-        </section>
+        <h1>피트니스 홍보 블로그 작성 프롬프트</h1>
 
-        <section class="prompt-section">
-            <h2><span class="emoji-header">💡</span>상황별 프롬프트 예시</h2>
+        <h2 class="section-heading">
+            <span role="img" aria-label="memo">📝</span> 작성 예시
+        </h2>
+        
+        <p>피트니스 센터를 홍보하는 블로그 글 작성 예시입니다.</p>
+        
+        <div class="prompt-elements-group"> 
             
-            <div class="highlight-box">
-                <h3>🏋️ 헬스장 리뷰 작성하기</h3>
-                <pre style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; color: white;">
-📍 [시설명]은 [특징]을 갖춘 프리미엄 헬스장입니다.
-
-🗺️ 위치는 [주소]에 있으며, 
-   [운동 종류] 전문 트레이너들이 상주합니다.
-
-💰 월 이용료는 [가격 정보]이며, 
-   [프로그램 종류] 등 다양한 프로그램을 운영합니다.
-
-✍️ 이런 정보를 바탕으로 매력적인 블로그 포스팅을 작성해주세요!
-                </pre>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="target">🎯</span> 역할
+                </h3>
+                <p>너는 [지역]에서 [센터 이름] 피트니스 센터를 운영하고 있는 [대표/마케터]야.</p>
             </div>
-
-            <div class="prompt-box" style="margin-top: 20px;">
-                <h3>🎨 작성 팁</h3>
-                <ul>
-                    <li>🔥 시선을 끄는 제목 사용하기</li>
-                    <li>📸 실제 시설 이미지 포함하기</li>
-                    <li>💬 생생한 이용 후기 추가하기</li>
-                    <li>🎁 특별 프로모션 정보 강조하기</li>
-                    <li>📞 연락처 및 예약 방법 명시하기</li>
-                </ul>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="clipboard">📋</span> 과업
+                </h3>
+                <p>피트니스 센터 또는 특정 프로그램을 소개하는 홍보 블로그를 작성해줘.</p>
             </div>
-        </section>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="lightbulb">💡</span> 맥락
+                </h3>
+                <p>우리 센터는 [다른 센터와 차별점 또는 센터 소개글]. 이런 차별점을 가지고 센터를 홍보하는 블로그 글이 필요해.</p>
+            </div>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="art-palette">🎨</span> 어조
+                </h3>
+                <p>블로그 특성에 맞게 신뢰감 있고 전문적인 어조로 작성해줘.</p>
+            </div>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="page">📄</span> 형식
+                </h3>
+                <p>사람들이 관심 가질 만한 블로그 제목을 만들어주고, 글의 분량은 정보 전달에 충실하게 작성해줘. 글 마지막에 기본정보 넣어주고, 블로그 검색이 잘 되게 해시태그도 만들어줘.</p>
+            </div>
+            <div class="element-block">
+                <h3 class="element-title">
+                    <span role="img" aria-label="information-source">ℹ️</span> 기본정보
+                </h3>
+                <p>[ 센터의 주소 ], [ 영업시간 ], [ 주차가능여부 ], [ 전화번호 ], [ 네이버지도/홈페이지 주소 ]</p>
+            </div>
+            
+        </div>
 
-        <footer style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
-            <p>🚀 생성형 AI로 더 효과적인 운동시설 홍보를 시작하세요! 💯</p>
-        </footer>
+        <hr>
+        
+        <h2 class="section-heading">
+            <span role="img" aria-label="magic-wand">✨</span> 블로그 고정 프롬프트 템플릿 (수정 가능)
+        </h2>
+        
+        <p>아래 프롬프트 내용을 직접 수정하고, '수정 내용 복사' 버튼을 눌러 AI 도구에 바로 붙여넣기 하세요.</p>
+        
+        <div class="code-block-container clearfix">
+            <textarea id="promptTemplate">
+🎭 역할
+너는 [지역]에서 [센터 이름] 피트니스 센터를 운영하고 있는 [대표/마케터]야.
+
+📋 과업
+센터의 [주요 프로그램/시설]을 소개하는 홍보 블로그를 작성해줘.
+
+💡 맥락
+우리 센터는 [차별점 1], [차별점 2]와 같은 장점이 있어. 이 장점을 바탕으로 홍보해줘.
+
+🎨 어조
+블로그 특성에 맞게 신뢰감 있고 전문적인 어조로 작성해줘.
+
+📄 형식
+사람들이 관심 가질 만한 블로그 제목을 만들어주고, 글 마지막에 기본정보 넣어주고, 블로그 검색이 잘 되게 해시태그도 만들어줘.
+
+ℹ️ 기본정보
+**📍 주소:** [주소]
+**⏰ 영업시간:** [영업시간]
+**🚗 주차:** [주차 가능 여부 및 정보]
+**☎️ 전화번호:** [전화번호]
+**🗺️ 네이버지도:** [네이버지도 하이퍼링크]
+</textarea>
+            <button class="copy-button" onclick="copyToClipboard('promptTemplate')">수정 내용 복사</button>
+        </div>
+        
     </div>
+
+    <script>
+        /**
+         * 지정된 ID를 가진 텍스트 영역의 내용을 클립보드에 복사합니다.
+         * @param {string} elementId - 복사할 텍스트 영역의 ID
+         */
+        function copyToClipboard(elementId) {
+            const textarea = document.getElementById(elementId);
+            const button = document.querySelector('.copy-button');
+            const originalText = button.textContent;
+
+            // 텍스트 영역 내용을 복사
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // 모바일 지원
+            
+            // navigator.clipboard API 사용 (최신 권장 방식)
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                // 성공 시 버튼 텍스트 변경
+                button.textContent = '✅ 복사 완료!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 1500);
+            }).catch(err => {
+                // 실패 시 (보안 문제 등)
+                console.error('복사 실패: ', err);
+                // execCommand는 대체 수단으로만 사용
+                try {
+                    document.execCommand('copy');
+                    button.textContent = '✅ 복사 완료!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 1500);
+                } catch (e) {
+                    alert('클립보드 복사에 실패했습니다. 내용을 수동으로 복사해주세요.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

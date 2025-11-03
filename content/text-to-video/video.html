@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 식당 VIDEO 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .tool-link:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f5f7fa;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        
+        .image-placeholder {
+            background: #f5f7fa;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            color: #667eea;
+        }
+        
+        .prompt-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+        
+        .ai-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 10px 0 10px 40px;
+            position: relative;
+        }
+        
+        ul li:before {
+            content: "✅";
+            position: absolute;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 식당 VIDEO 가이드</h1>
+            <p>AI를 활용한 영상 생성 완벽 가이드</p>
+        </div>
+        
+        <div class="content">
+            <!-- 프롬프트 작성 순서 -->
+            <div class="section">
+                <h2 class="section-title">📝 프롬프트 작성 순서</h2>
+                
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    <strong>이미지 준비 및 프롬프트 개선</strong>
+                    <p style="margin-left: 45px; margin-top: 10px;">
+                        <a href="https://aistudio.google.com/prompts/new_chat?model=gemini-2.5-flash-image" class="tool-link" target="_blank">🌟 나노바나나</a>에서 얻은 이미지를 첨부하고 비디오 생성 가이드에 맞춰 다음 AI 도구에서 더 나은 프롬프트를 얻습니다.
+                    </p>
+                    <div style="margin-left: 45px; margin-top: 15px;">
+                        <a href="https://chatgpt.com" class="tool-link" target="_blank">🤖 Chat GPT</a>
+                        <a href="https://gemini.google.com" class="tool-link" target="_blank">✨ Gemini</a>
+                        <a href="https://claude.ai" class="tool-link" target="_blank">🧠 Claude</a>
+                    </div>
+                </div>
+                
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    <strong>영상 생성</strong>
+                    <p style="margin-left: 45px; margin-top: 10px;">
+                        생성형 AI를 통해 얻은 프롬프트를 다음 플랫폼에 넣어 영상을 생성합니다.
+                    </p>
+                    <div style="margin-left: 45px; margin-top: 15px;">
+                        <a href="https://aistudio.google.com/prompts/new_chat" class="tool-link" target="_blank">🎥 VEO</a>
+                        <a href="https://app.klingai.com" class="tool-link" target="_blank">🎬 Kling AI</a>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>💡 참고사항</strong>
+                    <ul>
+                        <li><strong>VEO:</strong> 이미지 한 장만 사용하여 영상 생성</li>
+                        <li><strong>Kling AI:</strong> 첫 이미지와 마지막 이미지를 모두 넣어야 영상 생성 가능</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 프롬프트 가이드 -->
+            <div class="section">
+                <h2 class="section-title">📋 프롬프트 가이드</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>내용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>프롬프트 형식</strong></td>
+                            <td>주체, 배경 및 환경, 매체 및 스타일, 구도 및 앵글, 조명, 색상 및 분위기</td>
+                        </tr>
+                        <tr>
+                            <td><strong>주체</strong></td>
+                            <td>식당에서 음식을 맛있게 먹고 있는 한국인 가족 4명</td>
+                        </tr>
+                        <tr>
+                            <td><strong>배경 및 환경</strong></td>
+                            <td>첨부한 사진의 식당 배경과 음식을 맛있게 먹고 있는 모습</td>
+                        </tr>
+                        <tr>
+                            <td><strong>매체 및 스타일</strong></td>
+                            <td>사실적인 동영상(실사 스타일)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>구도 및 앵글</strong></td>
+                            <td>음식을 보여주다가 줌아웃해서 음식을 맛있게 먹고 있는 모습으로 전환</td>
+                        </tr>
+                        <tr>
+                            <td><strong>조명</strong></td>
+                            <td>첨부한 사진의 식당 조명</td>
+                        </tr>
+                        <tr>
+                            <td><strong>색상 및 분위기</strong></td>
+                            <td>밝고 활기찬 분위기</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 프롬프트 작성 예시 -->
+            <div class="section">
+                <h2 class="section-title">✍️ 프롬프트 작성 예시 (Chat GPT, Gemini, Claude)</h2>
+                
+                <div class="code-box">
+(나노바나나로 생성한 이미지를 첨부하기)
+
+다음은 식당의 영상을 생성하기 위한 프롬프트 가이드야. 프롬프트 가이드를 활용하여 만든 예시 프롬프트도 아래에 제시했어. 가이드를 고려하여 더 나은 프롬프트를 한글과 영어로 제안해줘. 영상을 만들 이미지를 첨부했어. 첨부한 이미지를 참고해서 프롬프트를 제안해줘.
+
+--
+#프롬프트형식
+주체, 배경 및 환경, 매체 및 스타일, 구도 및 앵글, 조명, 색상 및 분위기
+
+#예시프롬프트 
+주체 : 식당에서 음식을 맛있게 먹고 있는 한국인 가족 4명
+배경 및 환경 : 첨부한 사진의 식당 배경과 음식을 맛있게 먹고 있는 모습
+매체 및 스타일 : 사실적인 동영상(실사 스타일)
+구도 및 앵글 : 음식을 보여주다가 줌아웃해서 음식을 맛있게 먹고 있는 모습으로 전환
+조명 : 첨부한 사진의 식당 조명
+색상 및 분위기 : 밝고 활기찬 분위기
+--
+                </div>
+            </div>
+            
+            <!-- 프롬프트 결과 -->
+            <div class="section">
+                <h2 class="section-title">🎯 프롬프트 결과</h2>
+                
+                <!-- Chat GPT -->
+                <div class="prompt-card">
+                    <span class="ai-badge">🤖 Chat GPT</span>
+                    
+                    <h3>🇰🇷 한글 프롬프트</h3>
+                    <p><strong>주체:</strong> 닭갈비를 중심으로 식당에서 즐겁게 식사하는 한국인 가족 4명(부모와 두 자녀)</p>
+                    <p><strong>배경 및 환경:</strong> 전통적인 한식 식당 내부, 따뜻한 조명 아래에서 김이 피어오르는 닭갈비와 다양한 반찬이 놓인 원형 식탁, 나무 인테리어와 한옥 느낌의 벽장식이 있는 공간</p>
+                    <p><strong>매체 및 스타일:</strong> 사실적인 실사풍 동영상, 자연스러운 인물 움직임과 음식의 질감이 강조된 고해상도 영상</p>
+                    <p><strong>구도 및 앵글:</strong> 음식 위로 김이 피어오르는 근접샷으로 시작 → 서서히 줌아웃하며 가족이 함께 웃으며 식사하는 장면으로 전환 → 부모와 아이들이 젓가락으로 음식을 나누는 클로즈업</p>
+                    <p><strong>조명:</strong> 따뜻한 톤의 식당 조명, 부드럽게 인물을 감싸는 실내 확산광</p>
+                    <p><strong>색상 및 분위기:</strong> 따뜻하고 아늑한 색감, 가족의 웃음과 함께하는 행복하고 활기찬 분위기</p>
+                    
+                    <h3 style="margin-top: 20px;">🇺🇸 English Prompt</h3>
+                    <p><strong>Subject:</strong> A Korean family of four (parents and two children) happily enjoying dak-galbi together at a restaurant</p>
+                    <p><strong>Background and Environment:</strong> Traditional Korean restaurant interior with warm lighting, a round table filled with steaming dak-galbi and side dishes, wooden decor and Korean-style wall art</p>
+                    <p><strong>Medium and Style:</strong> Realistic live-action video, high-resolution cinematic quality emphasizing natural expressions and the texture of the food</p>
+                    <p><strong>Composition and Angle:</strong> Starts with a close-up of the steaming dak-galbi → smoothly zooms out to show the family laughing and sharing food → includes close-up shots of chopsticks serving and family interaction</p>
+                    <p><strong>Lighting:</strong> Warm and soft indoor lighting that gently highlights the family and the food</p>
+                    <p><strong>Color and Mood:</strong> Cozy, warm tones with a cheerful, heartwarming family atmosphere</p>
+                </div>
+                
+                <!-- Gemini -->
+                <div class="prompt-card">
+                    <span class="ai-badge">✨ Gemini</span>
+                    
+                    <h3>🇰🇷 한글 프롬프트</h3>
+                    <p><strong>주제:</strong> 한국인 가족 4명(아버지, 어머니, 두 딸)이 큰 팬에서 갓 나온 뜨거운 닭갈비를 먹으며 즐겁게 웃고 이야기하는 모습. 가족들은 젓가락으로 음식을 집어 먹으며 즐거워하고 있다.</p>
+                    <p><strong>배경 및 환경:</strong> 따뜻한 목재 인테리어와 벽에 걸린 전통 한국화가 특징인 아늑한 닭갈비 전문점. 부드럽게 흐릿하게 처리된 배경에 다른 손님들이 보이면서 자연스러운 분위기를 연출한다.</p>
+                    <p><strong>매체 및 스타일:</strong> 사실적인 영상. 얕은 심도(shallow depth of field)를 활용해 가족에게 초점을 맞춥니다.</p>
+                    <p><strong>구도 및 앵글:</strong> 지글지글 끓으며 김이 오르는 닭갈비의 클로즈업 샷으로 시작합니다. 서서히 후퇴(돌리 아웃)하며 가족 구성원들의 웃는 얼굴을 드러내고, 최종적으로 전체 그룹의 미디엄 샷으로 정착합니다. 테이블 주위를 부드럽게 회전하는 아크 샷을 추가해 역동적이고 생동감 있는 느낌을 줍니다.</p>
+                    <p><strong>조명:</strong> 테이블 바로 위에 매달린 오렌지 톤 펜던트 램프에서 나오는 따뜻하고 부드러운 조명으로, 친밀하고 아늑한 분위기를 연출하면서 음식의 증기와 질감을 강조합니다.</p>
+                    <p><strong>색상 및 분위기:</strong> 갈색, 빨간색, 오렌지색이 주를 이루는 따뜻한 색감으로, 식욕을 돋우고 따뜻하며 생동감 넘치는 분위기를 조성합니다.</p>
+                    
+                    <h3 style="margin-top: 20px;">🇺🇸 English Prompt</h3>
+                    <p><strong>Subject:</strong> A Korean family of four (father, mother, and two daughters) happily laughing and talking while eating steaming hot Dakgalbi (spicy stir-fried chicken) from a large pan. They are joyfully using chopsticks to pick up food.</p>
+                    <p><strong>Background & Environment:</strong> A cozy Dakgalbi restaurant featuring a warm wooden interior and traditional Korean paintings on the walls. Other diners are visible in the softly blurred background, creating a natural ambiance.</p>
+                    <p><strong>Medium & Style:</strong> realistic video. Utilizes a shallow depth of field to keep the focus primarily on the family.</p>
+                    <p><strong>Composition & Angle:</strong> Begins with a close-up shot of the sizzling Dakgalbi with steam rising. Slowly pulls back (dolly out) to reveal the smiling faces of the family members, finally settling on a medium shot of the entire group. A gentle arc shot moving around the table is added to give a dynamic and lively feel.</p>
+                    <p><strong>Lighting:</strong> Warm, soft lighting from orange-toned pendant lamps hanging directly above the table, creating an intimate and cozy atmosphere while highlighting the steam and texture of the food.</p>
+                    <p><strong>Color & Mood:</strong> A warm color palette dominated by browns, reds, and oranges, creating an appetizing, heartwarming, and vibrant atmosphere.</p>
+                </div>
+                
+                <!-- Claude -->
+                <div class="prompt-card">
+                    <span class="ai-badge">🧠 Claude</span>
+                    
+                    <h3>🇰🇷 개선된 프롬프트 (한글)</h3>
+                    <p><strong>주체:</strong> 부모와 두 딸로 구성된 4인 가족이 젓가락으로 매콤한 닭갈비를 떠먹으며 밝게 웃고 대화하는 모습</p>
+                    <p><strong>배경 및 환경:</strong> 전통 한국 벽화가 걸린 목재 기둥과 베이지색 벽이 있는 아늑한 한식당 내부, 원형 나무 테이블에 철판 위 치즈 닭갈비와 여러 반찬 접시들이 놓여있음</p>
+                    <p><strong>매체 및 스타일:</strong> 시네마틱한 질감의 실사 영상, 자연스러운 다큐멘터리 스타일</p>
+                    <p><strong>구도 및 앵글:</strong> 철판 위에서 지글지글 끓고 있는 닭갈비의 클로즈업으로 시작하여 김이 모락모락 피어오르는 모습을 보여주고, 부드럽게 줌아웃하면서 음식을 나눠먹는 가족 전체의 모습으로 전환, 미디엄 샷으로 마무리</p>
+                    <p><strong>조명:</strong> 따뜻한 색온도의 펜던트 조명이 테이블 위를 비추고, 주변은 부드러운 앰비언트 조명으로 아늑한 분위기 연출</p>
+                    <p><strong>색상 및 분위기:</strong> 오렌지-골드 톤의 따뜻한 색감, 가족의 웃음소리가 들릴 것 같은 활기차고 행복한 분위기</p>
+                    
+                    <h3 style="margin-top: 20px;">🇺🇸 Improved Prompt (English)</h3>
+                    <p><strong>Subject:</strong> A Korean family of four - parents and two daughters - smiling and conversing while eating spicy dakgalbi (stir-fried chicken) with chopsticks</p>
+                    <p><strong>Background & Environment:</strong> Cozy Korean restaurant interior with wooden beams, beige walls adorned with traditional Korean paintings, round wooden table set with a sizzling dakgalbi on a hot iron plate and multiple side dish plates</p>
+                    <p><strong>Medium & Style:</strong> Cinematic realistic footage with natural documentary-style aesthetics</p>
+                    <p><strong>Composition & Angle:</strong> Start with a close-up of the sizzling dakgalbi on the hot plate with rising steam, smoothly zoom out to reveal the family sharing the meal together, ending in a medium shot capturing the entire dining scene</p>
+                    <p><strong>Lighting:</strong> Warm-toned pendant lights illuminating the table from above, soft ambient lighting creating an intimate atmosphere around the space</p>
+                    <p><strong>Color & Mood:</strong> Warm orange-gold color palette, vibrant and joyful atmosphere filled with familial happiness and laughter</p>
+                </div>
+            </div>
+            
+            <!-- VEO 사용법 -->
+            <div class="section">
+                <h2 class="section-title">🎥 VEO 사용법</h2>
+                
+                <div class="success-box">
+                    <strong>✅ 사용 방법</strong>
+                    <ul>
+                        <li>이미지 한 장과 프롬프트를 넣으면 생성이 가능합니다</li>
+                        <li>오른쪽 메뉴에서 화면 비율과 영상의 길이를 조절할 수 있습니다</li>
+                    </ul>
+                </div>
+                
+                <div class="image-placeholder">
+                    <p>📷 VEO 사용법 이미지</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><img src="image001.png" alt="Veo 활용하여 이미지 생성하기"></p>
+                </div>
+            </div>
+            
+            <!-- Kling 사용법 -->
+            <div class="section">
+                <h2 class="section-title">🎬 Kling 사용법</h2>
+                
+                <div class="success-box">
+                    <strong>✅ 사용 방법</strong>
+                    <ul>
+                        <li>스타트 이미지와 엔드 이미지를 넣고, 프롬프트를 작성하면 영상 생성이 가능합니다</li>
+                    </ul>
+                </div>
+                
+                <div class="image-placeholder">
+                    <p>📷 Kling 사용법 이미지</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><img src="image003.png" alt="Veo 활용하여 이미지 생성하기"></p>
+                </div>
+            </div>
+            
+            <!-- 영상 생성 전 주의사항 -->
+            <div class="section">
+                <h2 class="section-title">⚠️ 영상 생성 전 주의사항</h2>
+                
+                <div class="warning-box">
+                    <strong>🚨 VEO2 안전 필터 주의</strong>
+                    <ul>
+                        <li>Kling의 경우 생성형 AI 프롬프트로 생성한 영상 프롬프트를 그대로 사용해도 문제없이 생성됩니다</li>
+                        <li>VEO2의 경우 안전필터가 적용되어 영상생성이 제한될 수 있습니다</li>
+                        <li><strong>제한 대상:</strong> 유명인, 공인, 아동, 청소년, 브랜드 로고, 저작권 콘텐츠 등을 직접적으로 언급할 경우</li>
+                        <li>생성형 AI로 얻은 영상 프롬프트로 영상생성이 되지 않을 경우 생성형 AI를 이용하여 다시 프롬프트를 얻어야 합니다</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 영상 프롬프트 수정 방법 -->
+            <div class="section">
+                <h2 class="section-title">🔧 영상 프롬프트 수정 방법</h2>
+                
+                <div class="info-box">
+                    <strong>💡 추천 도구</strong>
+                    <ul>
+                        <li><strong>Gemini</strong>를 사용하는 것을 추천합니다</li>
+                    </ul>
+                </div>
+                
+                <div class="code-box">
+아래의 프롬프트로 Veo에서 영상 생성하려고 하는데 Veo 가이드라인에 맞게 다시 수정해줘.
+--
+(생성형 AI로 얻은 프롬프트)
+--
+                </div>
+            </div>
+            
+            <!-- 수정된 영상 프롬프트 -->
+            <div class="section">
+                <h2 class="section-title">✏️ 수정된 영상 프롬프트</h2>
+                
+                <div class="prompt-card">
+                    <h3>🇰🇷 한글 프롬프트</h3>
+                    <p><strong>주체:</strong> 이 장면은 김이 모락모락 나는 커다란 팬 주위에 네 명의 인물들이 대화하고 활동하며 생동감 넘치는 모임을 갖는 모습을 묘사합니다. 그들은 젓가락을 사용하여 음식을 다루고 있습니다.</p>
+                    
+                    <p><strong>배경 및 환경:</strong> 따뜻한 색조와 전통 한국 패턴을 연상시키는 장식 요소를 특징으로 하는 양식화된 레스토랑 내부입니다. 배경에는 다른 손님들을 암시하는 흐릿하고 불분명한 형태들이 포함되어, 분주하면서도 예술적인 환경의 느낌을 유지합니다.</p>
+                    
+                    <p><strong>매체 및 스타일:</strong> 애니메이션 일러스트레이션 스타일, 2D 애니메이션, 생동감 있는 색상, 깔끔한 선. 주된 활동에 초점을 맞추기 위해 얕은 피사계 심도를 활용합니다.</p>
+                    
+                    <p><strong>구도 및 앵글:</strong> 영상은 김이 양식화되어 피어오르는 커다란 팬의 역동적인 클로즈업 샷으로 시작됩니다. 카메라는 이어서 그룹의 상호작용을 보여주기 위해 부드럽게 줌 아웃(뒤로 물러남)하며, 미디엄 샷에 고정됩니다. 테이블 주변을 매끄럽게 공전하는 카메라 움직임이 시각적인 흥미를 더합니다.</p>
+                    
+                    <p><strong>조명:</strong> 장식적인 천장 조명에서 나오는 따뜻하고 매력적인 조명이 김과 음식의 양식화된 질감을 강조합니다.</p>
+                    
+                    <p><strong>색상 및 분위기:</strong> 풍부한 빨간색, 주황색, 갈색과 같은 따뜻한 색조가 지배적인 생동감 있고 매력적인 색상 팔레트입니다. 분위기는 에너지 넘치고 조화롭습니다.</p>
+                    
+                    <h3 style="margin-top: 20px;">🇺🇸 English Prompt</h3>
+                    <p><strong>Subject:</strong> This scene depicts a lively gathering of four individuals engaging in conversation and activity around a large, steaming pan. They are using chopsticks to handle food.</p>
+                    
+                    <p><strong>Background & Environment:</strong> A stylized restaurant interior with warm tones, featuring decorative elements reminiscent of traditional Korean patterns. The background includes blurred, indistinct shapes suggesting other patrons, maintaining a sense of a busy but artistic environment.</p>
+                    
+                    <p><strong>Medium & Style:</strong> Animated illustration style, 2D animation, vibrant colors, clean lines. Utilizes a shallow depth of field to focus on the main activity.</p>
+                    
+                    <p><strong>Composition & Angle:</strong> The video opens with a dynamic close-up of the large pan, with stylized steam rising. The camera then gently zooms out (pulls back) to show the group's interaction, settling on a medium shot. A smooth, orbiting camera movement around the table adds visual interest.</p>
+                    
+                    <p><strong>Lighting:</strong> Warm and inviting illumination from decorative overhead lights, highlighting the steam and stylized textures of the food.</p>
+                    
+                    <p><strong>Color & Mood:</strong> A vibrant and appealing color palette with dominant warm hues like rich reds, oranges, and browns. The mood is energetic and harmonious.</p>
+                </div>
+            </div>
+            
+            <!-- 영상 결과물 -->
+            <div class="section">
+                <h2 class="section-title">🎞️ VEO 영상 결과물</h2>
+                
+                <div class="image-placeholder">
+                    <p>📹 VEO 영상 결과물</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">
+                        <video src="video001.mp4" type="video/mp4">
+                            <p>사용하시는 브라우저는 제공하는 동영상을 실행하지 못합니다.</p>
+                        </video>
+                    </p>
+               </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">🎞️ Kling 영상 결과물</h2>
+                
+                <div class="image-placeholder">
+                    <p>📹 Kling 영상 결과물</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">
+                        <video src="video002.mp4" type="video/mp4">
+                            <p>사용하시는 브라우저는 제공하는 동영상을 실행하지 못합니다.</p>
+                        </video>
+                    </p>
+               </div>
+            </div>
+            
+            <!-- 간단한 프롬프트로 영상 생성 -->
+            <div class="section">
+                <h2 class="section-title">⚡ 간단한 프롬프트로 영상 생성</h2>
+                
+                <div class="prompt-card">
+                    <h3>📝 영상 생성 프롬프트 #1</h3>
+                    <div class="code-box">They are enjoying Korean BBQ.</div>
+                    
+                    <h4 style="margin-top: 20px;">🎬 결과물</h4>
+                <div class="image-placeholder">
+                    <p>📹 VEO 영상 결과물</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">
+                        <video src="video003.mp4" type="video/mp4">
+                            <p>사용하시는 브라우저는 제공하는 동영상을 실행하지 못합니다.</p>
+                        </video>
+                    </p>
+               </div>
+                </div>
+                
+                <div class="prompt-card">
+                    <h3>📝 영상 생성 프롬프트 #2</h3>
+                    <div class="code-box">Create a video of a family of four blowing on steaming hot noodles as they enjoy eating them.</div>
+                    
+                    <h4 style="margin-top: 20px;">🎬 결과물</h4>
+                <div class="image-placeholder">
+                    <p>📹 VEO 영상 결과물</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">
+                        <video src="video004.mp4" type="video/mp4">
+                            <p>사용하시는 브라우저는 제공하는 동영상을 실행하지 못합니다.</p>
+                        </video>
+                    </p>
+               </div>
+                </div>
+            </div>
+            
+            <!-- 마무리 -->
+            <div class="section">
+                <div class="success-box">
+                    <h3>🎉 영상 생성 완료!</h3>
+                    <p>이 가이드를 따라 멋진 식당 영상을 만들어보세요. 창의적인 프롬프트와 적절한 도구 선택이 성공의 열쇠입니다!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
