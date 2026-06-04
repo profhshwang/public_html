@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>생성형 AI 서비스 소개</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #003D82;
+    --gold: #E8B004;
+    --navy-light: #1a5299;
+    --navy-dark: #002a5c;
+    --gold-light: #f5c840;
+    --bg: #f4f6fb;
+    --card-bg: #ffffff;
+    --text-main: #1a1a2e;
+    --text-sub: #4a5568;
+    --text-muted: #718096;
+    --border: #e2e8f0;
+    --radius: 14px;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    min-height: 100vh;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    background: rgba(232,176,4,0.12);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 180px; height: 180px;
+    background: rgba(232,176,4,0.08);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(232,176,4,0.2);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(232,176,4,0.3);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Space Grotesk', 'Noto Sans KR', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 20px 64px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Cards grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,61,130,0.10);
+  }
+
+  .card-header {
+    padding: 20px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .card-icon.blue   { background: #e6f0ff; }
+  .card-icon.green  { background: #e6f9f0; }
+  .card-icon.purple { background: #f0eaff; }
+  .card-icon.amber  { background: #fff8e1; }
+  .card-icon.red    { background: #fff0ee; }
+  .card-icon.teal   { background: #e0f7f4; }
+
+  .card-title-wrap { flex: 1; }
+  .card-service-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 3px;
+  }
+  .card-service-name a {
+    color: var(--navy);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--gold);
+    padding-bottom: 1px;
+    transition: color 0.15s;
+  }
+  .card-service-name a:hover { color: var(--navy-light); }
+
+  .card-url {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'Space Grotesk', monospace;
+  }
+
+  .card-body {
+    padding: 0 20px 18px;
+  }
+  .card-feature {
+    font-size: 13px;
+    color: var(--text-sub);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .prompt-box {
+    background: #f8faff;
+    border-left: 3px solid var(--navy);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 10px;
+  }
+  .prompt-box .prompt-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--navy);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .prompt-box p {
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.6;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-right: 5px;
+    margin-top: 8px;
+  }
+  .tag-blue   { background: #dbeafe; color: #1d4ed8; }
+  .tag-green  { background: #dcfce7; color: #166534; }
+  .tag-purple { background: #ede9fe; color: #6d28d9; }
+  .tag-amber  { background: #fef9c3; color: #92400e; }
+  .tag-red    { background: #fee2e2; color: #991b1b; }
+  .tag-teal   { background: #ccfbf1; color: #115e59; }
+
+  /* Summary table */
+  .summary-wrap {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  thead tr {
+    background: var(--navy);
+    color: #fff;
+  }
+  thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f8faff; }
+  tbody td {
+    padding: 12px 18px;
+    vertical-align: middle;
+    color: var(--text-sub);
+    line-height: 1.55;
+  }
+  tbody td:first-child { font-weight: 600; color: var(--text-main); }
+  tbody td a {
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid var(--gold);
+  }
+  tbody td a:hover { color: var(--navy-light); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+  footer span { color: var(--navy); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">AI Tools Guide</div>
+  <h1>생성형 <span>AI</span> 서비스 소개</h1>
+  <p>Prompt 작성부터 이미지·음악·영상·문서 생성까지 — 주요 생성형 AI 서비스와 활용 예시를 한눈에 확인하세요.</p>
+</div>
+
+<div class="container">
+
+  <p class="section-title">주요 서비스 상세</p>
+
+  <div class="cards-grid">
+
+    <!-- ChatGPT -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon blue">🤖</div>
+        <div class="card-title-wrap">
+          <div class="card-service-name">
+            <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a>
+          </div>
+          <div class="card-url">chatgpt.com</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-feature">텍스트 생성·분석·요약·번역 등 범용 언어 AI. <strong>심층 리서치(Deep Research)</strong> 기능으로 출처 기반 보고서 자동 작성 가능.</div>
+        <div class="prompt-box">
+          <div class="prompt-label">예시 Prompt</div>
+          <p>한국의 반도체 산업에 대한 투자 전망 보고서를 개조식으로 생성해주세요. 출처를 정확히 표시하고 환각이 없는지 점검해서 작성해 주세요.</p>
+        </div>
+        <div>
+          <span class="tag tag-blue">심층 리서치</span>
+          <span class="tag tag-blue">보고서 생성</span>
+          <span class="tag tag-blue">이미지 생성</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Claude -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon purple">🧠</div>
+        <div class="card-title-wrap">
+          <div class="card-service-name">
+            <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+          </div>
+          <div class="card-url">claude.ai</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-feature">Anthropic의 AI 어시스턴트. 긴 문서 분석·코드 작성에 강점. 생성 결과를 <strong>DOCX·PPTX 파일</strong>로 직접 다운로드 가능.</div>
+        <div class="prompt-box">
+          <div class="prompt-label">예시 Prompt</div>
+          <p>한국의 반도체 산업 투자 전망 보고서를 개조식으로 작성해 주세요. 생성된 결과는 [docx|pptx] 파일로 다운로드할 수 있게 해주세요.</p>
+        </div>
+        <div>
+          <span class="tag tag-purple">문서 생성</span>
+          <span class="tag tag-purple">DOCX·PPTX</span>
+          <span class="tag tag-purple">코드 작성</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gemini Canvas -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon green">✨</div>
+        <div class="card-title-wrap">
+          <div class="card-service-name">
+            <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini (Canvas)</a>
+          </div>
+          <div class="card-url">gemini.google.com</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-feature">Google의 멀티모달 AI. <strong>Canvas 기능</strong>으로 생성된 문서·이미지를 시각적으로 편집하고, 부분 수정 요청이 가능.</div>
+        <div class="prompt-box">
+          <div class="prompt-label">활용 포인트</div>
+          <p>이미지 생성 후 "배경을 더 밝게", "텍스트 위치 변경" 등 자연어로 부분 수정 요청 가능</p>
+        </div>
+        <div>
+          <span class="tag tag-green">Canvas 편집</span>
+          <span class="tag tag-green">이미지 생성</span>
+          <span class="tag tag-green">노래 만들기</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suno -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon amber">🎵</div>
+        <div class="card-title-wrap">
+          <div class="card-service-name">
+            <a href="https://suno.com" target="_blank" rel="noopener">Suno</a>
+          </div>
+          <div class="card-url">suno.com</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-feature">텍스트 설명만으로 완성된 노래를 생성하는 AI 음악 서비스. 장르·분위기·가사 스타일 지정 가능.</div>
+        <div class="prompt-box">
+          <div class="prompt-label">예시 Prompt</div>
+          <p>20대 학생의 사랑과 이별을 노래한 발라드 곡. 첫 만남에 사랑에 빠졌으나 사소한 다툼으로 헤어진 후 다시 만나고 싶은 마음을 담은 노래</p>
+        </div>
+        <div>
+          <span class="tag tag-amber">음악 생성</span>
+          <span class="tag tag-amber">가사 포함</span>
+          <span class="tag tag-amber">장르 설정</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NotebookLM -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon teal">📚</div>
+        <div class="card-title-wrap">
+          <div class="card-service-name">
+            <a href="https://notebooklm.google.com" target="_blank" rel="noopener">NotebookLM</a>
+          </div>
+          <div class="card-url">notebooklm.google.com</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-feature">업로드한 자료(PDF, 문서 등)를 기반으로 질의응답·요약·팟캐스트 생성. <strong>자료 업로드 필수.</strong></div>
+        <div class="prompt-box">
+          <div class="prompt-label">활용 방법</div>
+          <p>PDF·Google Docs·웹페이지 등을 소스로 업로드 후, 해당 자료 기반으로만 답변하는 RAG 챗봇으로 활용</p>
+        </div>
+        <div>
+          <span class="tag tag-teal">RAG 챗봇</span>
+          <span class="tag tag-teal">자료 분석</span>
+          <span class="tag tag-teal">팟캐스트</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Flow -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon red">🎬</div>
+        <div class="card-title-wrap">
+          <div class="card-service-name">
+            <a href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener">Google Flow</a>
+          </div>
+          <div class="card-url">labs.google/fx/tools/flow</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-feature">시작 프레임을 제시하면 AI가 영상을 생성하는 비디오 생성 도구. 초 단위로 장면 변화를 세밀하게 지정할 수 있음.</div>
+        <div class="prompt-box">
+          <div class="prompt-label">활용 팁</div>
+          <p>시작 프레임의 변화 과정을 제시하고, 초 단위로 구분해서 제시하면 더욱 정밀한 영상 생성 가능</p>
+        </div>
+        <div>
+          <span class="tag tag-red">영상 생성</span>
+          <span class="tag tag-red">프레임 제어</span>
+          <span class="tag tag-red">Labs 실험</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Summary Table -->
+  <p class="section-title">서비스 비교 요약</p>
+  <div class="summary-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>서비스</th>
+          <th>주요 기능</th>
+          <th>특화 영역</th>
+          <th>바로 가기</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ChatGPT</td>
+          <td>텍스트 생성, 심층 리서치, 이미지 생성</td>
+          <td>보고서·분석·연구</td>
+          <td><a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com ↗</a></td>
+        </tr>
+        <tr>
+          <td>Claude</td>
+          <td>문서 생성, DOCX/PPTX 출력, 코드</td>
+          <td>비즈니스 문서·코딩</td>
+          <td><a href="https://claude.ai" target="_blank" rel="noopener">claude.ai ↗</a></td>
+        </tr>
+        <tr>
+          <td>Gemini</td>
+          <td>이미지 생성, Canvas 편집, 음악 생성</td>
+          <td>멀티모달·편집</td>
+          <td><a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com ↗</a></td>
+        </tr>
+        <tr>
+          <td>Suno</td>
+          <td>AI 음악·노래 생성</td>
+          <td>음악 창작</td>
+          <td><a href="https://suno.com" target="_blank" rel="noopener">suno.com ↗</a></td>
+        </tr>
+        <tr>
+          <td>NotebookLM</td>
+          <td>자료 기반 Q&A, 요약, 팟캐스트</td>
+          <td>문서 분석·학습</td>
+          <td><a href="https://notebooklm.google.com" target="_blank" rel="noopener">notebooklm.google.com ↗</a></td>
+        </tr>
+        <tr>
+          <td>Google Flow</td>
+          <td>AI 영상 생성, 프레임 제어</td>
+          <td>비디오 크리에이션</td>
+          <td><a href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener">labs.google ↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>생성형 AI 서비스 소개 자료 &nbsp;·&nbsp; <span>Hallym University Business Administration</span></p>
+  <p style="margin-top:6px; font-size:12px;">각 서비스명을 클릭하면 해당 사이트가 새 탭에서 열립니다.</p>
+</footer>
+
+</body>
+</html>
